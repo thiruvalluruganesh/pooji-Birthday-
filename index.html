@@ -8,14 +8,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Dancing+Script:wght@700&family=Pacifico&family=Bungee+Shade&family=Fredoka+One&family=Bubblegum+Sans&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #add8e6;
-            --pink: #ff69b4;
-            --accent: #add8e6;
-            --neon: #ff00ff;
-            --glass: rgba(255, 255, 255, 0.9);
-            --cool-blue: #add8e6;
-            --secondary: #00d4ff;
-            --box-color: #ff69b4;
+            --bg-start: #1a1a2e;
+            --bg-end: #301934;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-primary: #2c3e50;
+            --text-secondary: #fff;
+            --primary-accent: #c0a080; /* Soft Gold */
+            --secondary-accent: #b57edc; /* Lavender */
+            --vibrant-accent: #e0ac9a; /* Dusty Rose */
+            --deep-accent: #8e44ad; /* Amethyst */
+            --btn-grad-start: #e0ac9a;
+            --btn-grad-end: #b57edc;
+            --box-color: #c0a080;
+            --timer-border: #c0a080;
+            --ribbon-grad-start: #8e44ad;
+            --ribbon-grad-end: #b57edc;
         }
 
         @keyframes bgGradient {
@@ -30,23 +37,14 @@
         }
 
         @keyframes neonPulse {
-            0% { box-shadow: 0 0 5px #fff, 0 0 10px #ff00ff, 0 0 15px #00d4ff; border-color: #ff00ff; }
-            50% { box-shadow: 0 0 10px #fff, 0 0 20px #00d4ff, 0 0 30px #ff00ff; border-color: #00d4ff; }
-            100% { box-shadow: 0 0 5px #fff, 0 0 10px #ff00ff, 0 0 15px #00d4ff; border-color: #ff00ff; }
+            0% { box-shadow: 0 0 5px #fff, 0 0 10px var(--primary-accent), 0 0 15px var(--secondary-accent); border-color: var(--primary-accent); }
+            50% { box-shadow: 0 0 10px #fff, 0 0 20px var(--secondary-accent), 0 0 30px var(--primary-accent); border-color: var(--secondary-accent); }
+            100% { box-shadow: 0 0 5px #fff, 0 0 10px var(--primary-accent), 0 0 15px var(--secondary-accent); border-color: var(--primary-accent); }
         }
 
         @keyframes sway {
             0% { transform: rotate(-5deg); }
             100% { transform: rotate(5deg); }
-        }
-
-        .heart-particle {
-            position: fixed;
-            top: -10%;
-            user-select: none;
-            pointer-events: none;
-            z-index: 9999;
-            animation: fall linear forwards;
         }
 
         @keyframes fall {
@@ -57,11 +55,12 @@
         
         body, html { 
             font-family: 'Comfortaa', cursive; height: 100%; width: 100%;
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffd1ff, #a1c4fd);
+            background: linear-gradient(-45deg, #1a1a2e, #301934, #2c3e50, #4a148c);
             background-size: 400% 400%;
-            animation: bgGradient 10s ease infinite;
+            animation: bgGradient 15s ease infinite;
             overflow-x: hidden;
             transition: background 1.5s ease;
+            color: var(--text-secondary);
         }
 
         .screen { 
@@ -71,168 +70,107 @@
         .active { display: flex; animation: fadeIn 0.8s ease; }
 
         .glass-card {
-            background: var(--glass); backdrop-filter: blur(20px);
-            padding: 40px 25px; border-radius: 45px; border: 5px solid white;
-            box-shadow: 0 35px 70px rgba(0,0,0,0.15); width: 100%; max-width: 420px;
+            background: var(--card-bg); backdrop-filter: blur(20px);
+            padding: 40px 25px; border-radius: 45px; border: 4px solid var(--primary-accent);
+            box-shadow: 0 35px 70px rgba(0,0,0,0.5); width: 100%; max-width: 420px;
+            color: var(--text-primary);
         }
 
         .neon-text { 
             font-family: 'Pacifico', cursive; 
-            background: linear-gradient(45deg, #f72585, #4cc9f0, #ff00ff);
+            background: linear-gradient(45deg, var(--deep-accent), var(--primary-accent), var(--vibrant-accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 38px;
             margin-bottom: 15px;
-            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));
+            filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.1));
         }
 
         .bday-name {
             font-family: 'Bungee Shade', cursive;
             font-size: 28px;
-            color: #ff0055;
-            text-shadow: 3px 3px 0px #ffd1ff;
+            color: var(--deep-accent);
+            text-shadow: 2px 2px 0px rgba(192, 160, 128, 0.4);
             margin: 10px 0;
         }
 
         .timer-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 25px 0; justify-content: center; }
         .t-box { 
             background: white; border-radius: 15px; padding: 10px 5px; 
-            border: 2px solid #ff85a1; box-shadow: 4px 4px 0px var(--secondary);
+            border: 2px solid var(--timer-border); 
+            box-shadow: 4px 4px 0px rgba(181, 126, 220, 0.2);
         }
-        .t-box span { display: block; font-size: 1.4rem; font-weight: 900; color: #444; font-family: 'Fredoka One'; }
-        .t-box label { font-size: 0.6rem; color: #f72585; font-weight: 800; text-transform: uppercase; }
-        .sec-active { border: 3px solid #f72585; animation: pulse 1s infinite; }
+        .t-box span { display: block; font-size: 1.4rem; font-weight: 900; color: #333; font-family: 'Fredoka One'; }
+        .t-box label { font-size: 0.6rem; color: var(--deep-accent); font-weight: 800; text-transform: uppercase; }
+        .sec-active { border: 3px solid var(--vibrant-accent); animation: pulse 1s infinite; }
 
         .btn-p { 
-            background: linear-gradient(45deg, #4cc9f0, #f72585); color: white; border: 2px solid #fff;
+            background: linear-gradient(45deg, var(--btn-grad-start), var(--btn-grad-end));
+            color: white; border: 1px solid #fff;
             padding: 16px 40px; border-radius: 50px; font-weight: 800;
             cursor: pointer; transition: 0.4s; text-transform: uppercase; font-size: 14px;
             font-family: 'Fredoka One', cursive;
-            box-shadow: 0 10px 20px rgba(247, 37, 133, 0.4);
+            box-shadow: 0 8px 15px rgba(142, 68, 173, 0.3);
             margin: 5px;
         }
-        .btn-p:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 15px 25px rgba(247, 37, 133, 0.6); }
+        .btn-p:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 12px 20px rgba(142, 68, 173, 0.4); }
 
-        /* GIFT BOX ANIMATION */
-        .gift-wrapper {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            margin: 30px auto;
-            cursor: pointer;
-        }
-
+        .gift-wrapper { position: relative; width: 150px; height: 150px; margin: 30px auto; cursor: pointer; }
         .gift-box-base {
-            position: absolute;
-            bottom: 0;
-            width: 100px;
-            height: 80px;
-            background: var(--box-color);
-            border: 4px solid #fff;
-            border-radius: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
+            position: absolute; bottom: 0; width: 100px; height: 80px;
+            background: var(--box-color); border: 4px solid #fff; border-radius: 10px;
+            left: 50%; transform: translateX(-50%); z-index: 10;
         }
-
         .gift-box-lid {
-            position: absolute;
-            bottom: 70px;
-            width: 110px;
-            height: 25px;
-            background: var(--box-color);
-            border: 4px solid #fff;
-            border-radius: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 12;
+            position: absolute; bottom: 70px; width: 110px; height: 25px;
+            background: var(--box-color); border: 4px solid #fff; border-radius: 5px;
+            left: 50%; transform: translateX(-50%); z-index: 12;
             transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
-        .gift-bow {
-            position: absolute;
-            top: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 28px;
-        }
-
+        .gift-bow { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 28px; }
         .character-pop {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) scale(0.5);
-            width: 70px;
-            height: 70px;
-            background: white;
-            border-radius: 50% 50% 45% 45%;
-            z-index: 11;
-            opacity: 0;
-            transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #ffc0cb;
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%) scale(0.5);
+            width: 70px; height: 70px; background: white; border-radius: 50% 50% 45% 45%;
+            z-index: 11; opacity: 0; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid var(--vibrant-accent);
         }
-
-        .character-pop::before { content: '• •'; font-size: 20px; color: #ff69b4; margin-top: 10px; }
-        .character-pop::after { content: '◡'; font-size: 15px; color: #ff69b4; margin-top: -5px; }
-
         .gift-wrapper:hover .gift-box-lid { transform: translateX(-50%) translateY(-35px) rotate(-10deg); }
         .gift-wrapper:hover .character-pop { transform: translateX(-50%) translateY(-50px) scale(1); opacity: 1; }
 
         .special-frame-container { perspective: 1000px; margin: 30px auto; display: flex; justify-content: center; }
         .magic-frame {
             width: 260px; height: 320px; background: white; padding: 12px; border-radius: 15px;
-            border: 4px solid #fff;
-            animation: neonPulse 2s infinite ease-in-out;
+            border: 4px solid #fff; animation: neonPulse 2.5s infinite ease-in-out;
             transform: rotateX(5deg); transition: 0.5s ease; position: relative; overflow: hidden;
         }
         .magic-frame img { width: 100%; height: 82%; object-fit: cover; border-radius: 8px; }
-        .frame-caption { font-family: 'Pacifico', cursive; color: #f72585; font-size: 1.1rem; margin-top: 10px; display: block; }
+        .frame-caption { font-family: 'Pacifico', cursive; color: var(--deep-accent); font-size: 1.1rem; margin-top: 10px; display: block; }
 
         .poojitha-grid {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
             max-width: 380px; margin: 30px auto; padding: 15px;
-            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);
-            border-radius: 20px; border: 2px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            border-radius: 20px; border: 2px solid rgba(255, 255, 255, 0.2);
         }
         .grid-item {
             background: white; padding: 12px; border-radius: 12px; text-align: center;
-            border-bottom: 3px solid var(--pink); transition: transform 0.3s ease;
+            border-bottom: 3px solid var(--primary-accent); transition: transform 0.3s ease;
         }
-        .grid-letter { display: block; font-family: 'Bungee Shade', cursive; font-size: 1.8rem; color: #f72585; }
-        .grid-desc { font-family: 'Fredoka One', sans-serif; font-size: 0.7rem; color: #444; text-transform: uppercase; }
+        .grid-letter { display: block; font-family: 'Bungee Shade', cursive; font-size: 1.8rem; color: var(--deep-accent); }
+        .grid-desc { font-family: 'Fredoka One', sans-serif; font-size: 0.7rem; color: #555; text-transform: uppercase; }
 
-        #ribbon-container {
-            position: relative; width: 100%; height: 100px; margin: 20px 0;
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
-        }
-        .ribbon-part {
-            position: absolute; height: 40px; background: linear-gradient(to bottom, #ff0055, #ff85a1);
-            width: 50%; transition: 1s ease-in-out; z-index: 10;
-        }
+        #ribbon-container { position: relative; width: 100%; height: 100px; margin: 20px 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .ribbon-part { position: absolute; height: 40px; background: linear-gradient(to bottom, var(--ribbon-grad-start), var(--ribbon-grad-end)); width: 50%; transition: 1s ease-in-out; z-index: 10; }
         .ribbon-left { left: 0; border-radius: 0 5px 5px 0; border-right: 2px solid white; }
         .ribbon-right { right: 0; border-radius: 5px 0 0 5px; border-left: 2px solid white; }
-        .scissors {
-            position: absolute; font-size: 3.5rem; cursor: pointer; z-index: 20;
-            transition: 0.3s; filter: drop-shadow(0 0 15px pink);
-            animation: float 2s infinite ease-in-out;
-        }
+        .scissors { position: absolute; font-size: 3.5rem; cursor: pointer; z-index: 20; transition: 0.3s; filter: drop-shadow(0 0 10px var(--secondary-accent)); animation: float 2s infinite ease-in-out; }
         .ribbon-cut .ribbon-left { transform: translateX(-100%); }
         .ribbon-cut .ribbon-right { transform: translateX(100%); }
         .ribbon-cut .scissors { opacity: 0; pointer-events: none; }
 
-        .flower-lights { 
-            position: fixed; top: 0; width: 100%; display: none; 
-            justify-content: space-between; padding: 0 10px; z-index: 100;
-        }
-        .flower-thread {
-            display: flex; flex-direction: column; align-items: center;
-            animation: sway 3s infinite alternate ease-in-out; transform-origin: top center;
-        }
-        .thread { width: 2px; height: 60px; background: rgba(255,255,255,0.5); }
+        .flower-lights { position: fixed; top: 0; width: 100%; display: none; justify-content: space-between; padding: 0 10px; z-index: 100; }
+        .flower-thread { display: flex; flex-direction: column; align-items: center; animation: sway 3s infinite alternate ease-in-out; transform-origin: top center; }
+        .thread { width: 2px; height: 60px; background: rgba(255,255,255,0.2); }
         .flower { font-size: 1.5rem; filter: drop-shadow(0 0 8px currentColor); }
 
         .reveal-section { max-width: 900px; margin: 40px auto; opacity: 0.3; pointer-events: none; transition: 1s; }
@@ -240,46 +178,32 @@
         .photo-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; padding: 10px; }
         .polaroid { 
             background: white; padding: 10px 10px 25px 10px; color: black; 
-            width: 140px; transition: 0.5s; cursor: pointer; 
-            border: 3px solid #fff; border-radius: 2px;
+            width: 140px; transition: 0.5s; cursor: pointer; border: 3px solid #fff; border-radius: 2px;
             animation: neonPulse 3s infinite ease-in-out;
         }
         .polaroid img { width: 120px; height: 120px; object-fit: cover; border-radius: 5px; }
-        .polaroid span { font-size: 0.8rem; font-family: 'Pacifico'; display: block; margin-top: 8px; color: #f72585; }
+        .polaroid span { font-size: 0.8rem; font-family: 'Pacifico'; display: block; margin-top: 8px; color: var(--deep-accent); }
         .tap-placeholder { width: 120px; height: 120px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #777; font-family: 'Fredoka One'; font-size: 0.9rem; border-radius: 5px; }
 
         .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 400px; margin: 30px auto; }
-        .video-card { 
-            background: rgba(255,255,255,0.2); border-radius: 20px; 
-            overflow: hidden; position: relative; height: 200px;
-            border: 3px solid #fff; animation: neonPulse 2.5s infinite ease-in-out;
-        }
+        .video-card { background: rgba(255,255,255,0.1); border-radius: 20px; overflow: hidden; position: relative; height: 200px; border: 3px solid #fff; animation: neonPulse 2.5s infinite ease-in-out; }
         .video-card video { width: 100%; height: 100%; object-fit: cover; }
-        .video-label { 
-            position: absolute; bottom: 0; width: 100%; background: rgba(247, 37, 133, 0.7); 
-            color: white; font-size: 0.7rem; padding: 5px; font-family: 'Fredoka One';
-        }
+        .video-label { position: absolute; bottom: 0; width: 100%; background: rgba(142, 68, 173, 0.8); color: white; font-size: 0.7rem; padding: 5px; font-family: 'Fredoka One'; }
 
-        #s-final { background: transparent; color: white; display: none; padding: 60px 10px; text-align: center; }
-        .h-birthday { font-family: 'Great Vibes', cursive; font-size: 3rem; color: #ffffff; text-shadow: 3px 3px 0px rgba(247, 37, 133, 0.5); }
+        #s-final { background: transparent; color: var(--text-secondary); display: none; padding: 60px 10px; text-align: center; }
+        .h-birthday { font-family: 'Great Vibes', cursive; font-size: 3.2rem; color: var(--primary-accent); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
 
         .letter { 
             background: #fffef5; color: #444; padding: 30px; border-radius: 10px; text-align: left; 
             max-width: 380px; margin: 40px auto; line-height: 1.6; 
-            box-shadow: 12px 12px 0px #4cc9f0; font-family: 'Dancing Script', cursive; font-size: 1.3rem;
+            box-shadow: 10px 10px 0px rgba(192, 160, 128, 0.4); font-family: 'Dancing Script', cursive; font-size: 1.3rem;
         }
         
-        .chip { 
-            padding: 10px 20px; border-radius: 30px; border: 2px solid #ffffff; 
-            margin: 6px; display: inline-block; font-size: 14px; 
-            background: linear-gradient(45deg, #f72585, #7209b7); color: white; font-family: 'Fredoka One';
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .chip { padding: 10px 20px; border-radius: 30px; border: 1px solid #ffffff; margin: 6px; display: inline-block; font-size: 14px; background: linear-gradient(45deg, var(--deep-accent), var(--secondary-accent)); color: white; font-family: 'Fredoka One'; }
 
         .cake-container { position: relative; width: 200px; height: 180px; margin: 30px auto; cursor: pointer; }
         .cake-img { width: 100%; height: 100%; position: absolute; top: 0; left: 0; transition: 0.8s; }
-        .cake-name { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-family: 'Pacifico', cursive; font-size: 1.3rem; z-index: 10; pointer-events: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); transition: 0.5s; }
+        .cake-name { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--deep-accent); font-family: 'Pacifico', cursive; font-size: 1.3rem; z-index: 10; pointer-events: none; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); transition: 0.5s; }
         .cake-main { z-index: 1; clip-path: polygon(0% 0%, 50% 0%, 50% 100%, 0% 100%); display: none; }
         .cake-slice { z-index: 2; clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%); display: none; }
         .cake-whole { z-index: 3; }
@@ -287,12 +211,11 @@
         .is-cut .cake-main { display: block; transform: translateX(-20px) rotate(-3deg); }
         .is-cut .cake-slice { display: block; transform: translateX(20px) rotate(3deg); }
 
-        .intro-vid-container {
-            width: 100%; border-radius: 20px; overflow: hidden; 
-            margin-bottom: 20px; border: 3px solid #f72585; 
-            box-shadow: 0 0 15px rgba(247, 37, 133, 0.3);
-            background: #000;
-        }
+        .intro-vid-container { width: 100%; border-radius: 20px; overflow: hidden; margin-bottom: 20px; border: 3px solid var(--primary-accent); background: #000; }
+        #gift-reveal-vid-container { display: none; width: 100%; margin-top: 20px; border-radius: 15px; overflow: hidden; border: 3px solid var(--secondary-accent); animation: fadeIn 1s ease; }
+
+        .heart-particle { position: fixed; top: -10%; user-select: none; pointer-events: none; z-index: 9999; animation: fall linear forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -315,43 +238,44 @@
 
     <section id="s2" class="screen">
         <div class="glass-card" id="m-ask">
-            <!-- INTRO VIDEO (Muted and playsinline are required for autoplay) -->
             <div class="intro-vid-container">
                 <video id="intro-vid" muted loop playsinline style="width: 100%; display: block;">
-                    <source src="VID_20260513_151013.mp4" type="video/mp4">
+                    <source src="Record_2026-05-13-09-25-15_f9ee0578fe1cc94de7482bd41accb329~3.mp4" type="video/mp4">
                 </video>
             </div>
-            
-            <h2 class="neon-text" style="font-size: 28px;">Ready for Surprise? ✨</h2>
+            <h2 class="neon-text" style="font-size: 28px; color: var(--text-primary); -webkit-text-fill-color: initial;">Ready for Surprise? ✨</h2>
             <div style="margin-top:25px; display:flex; gap:10px; justify-content:center;">
-                <button class="btn-p" onclick="confirmYes()">Yes! </button>
-                <button style="background:#eee; color:#333; padding:12px 25px; border-radius:25px;" onclick="alert('Yes chepachu kada🥺! 🎀')">No</button>
+                <button class="btn-p" onclick="confirmYes()">Yes!</button>
+                <button style="background:#eee; color:#333; padding:12px 25px; border-radius:25px; font-family:'Fredoka One'; border:none; cursor:pointer;" onclick="alert('Yes chepachu kada🥺! 🎀')">No</button>
             </div>
         </div>
 
         <div class="glass-card" id="m-deco" style="display:none;">
-            <p style="font-weight: 800; color:#f72585; margin-bottom: 15px;">Light up your world! 💡</p>
+            <p style="font-weight: 800; margin-bottom: 15px; color: var(--text-primary);">Light up your world! 💡</p>
             <button class="btn-p" onclick="turnLights()">Turn On Flower Lights</button>
             <button class="btn-p" onclick="addBuntings()">Add Sparkles</button>
             
-            <div id="envelope" style="display:none; margin-top:30px; cursor:pointer;" onclick="skipPin()">
+            <div id="envelope" style="display:none; margin-top:30px; cursor:pointer;" onclick="openGiftReveal()">
                 <div class="gift-wrapper">
-                    <div class="gift-box-lid">
-                        <div class="gift-bow">🎀</div>
-                    </div>
+                    <div class="gift-box-lid"><div class="gift-bow">🎀</div></div>
                     <div class="character-pop"></div>
                     <div class="gift-box-base"></div>
                 </div>
-                <div style="font-size:1.5rem; color:#f72585; font-weight:bold; font-family:'Pacifico'; margin-top: 10px;">
-                    Tap to open your gift! 🎁
-                </div>
+                <div style="font-size:1.5rem; color:var(--deep-accent); font-weight:bold; font-family:'Pacifico'; margin-top: 10px;">Tap to open! 🎁</div>
+            </div>
+
+            <div id="gift-reveal-vid-container">
+                <video id="gift-reveal-vid" playsinline style="width: 100%;">
+                    <source src="gift_reveal.mp4" type="video/mp4">
+                </video>
+                <button class="btn-p" style="margin-top: 15px;" onclick="skipPin()">Go to Celebration! 🎉</button>
             </div>
         </div>
     </section>
 
     <section id="s-final">
         <h1 class="h-birthday">Happy Birthday, Poojitha</h1>
-        <p style="color:#ffffff; letter-spacing:5px; font-family: 'Fredoka One';">✨ JULY 3, 2026 ✨</p>
+        <p style="color:var(--text-secondary); opacity: 0.8; letter-spacing:5px; font-family: 'Fredoka One'; margin-top: 10px;">✨ JULY 3, 2026 ✨</p>
 
         <div class="special-frame-container">
             <div class="magic-frame">
@@ -375,11 +299,11 @@
             <div class="ribbon-part ribbon-left"></div>
             <div class="scissors" onclick="cutRibbon()">🎀</div>
             <div class="ribbon-part ribbon-right"></div>
-            <p id="ribbon-msg" style="position:absolute; bottom:0; font-weight:800; font-family:'Fredoka One'; color:gold;">Cut the Ribbon!</p>
+            <p id="ribbon-msg" style="position:absolute; bottom:0; font-weight:800; font-family:'Fredoka One'; color: var(--primary-accent);">Cut the Ribbon!</p>
         </div>
 
         <div id="memories-section" class="reveal-section">
-            <p style="background:rgba(247,37,133,0.4); display:inline-block; padding:8px 20px; border-radius:30px; font-family: 'Fredoka One';">15 Memories 📷</p>
+            <p style="background: rgba(192, 160, 128, 0.3); color: var(--primary-accent); display: inline-block; padding: 8px 20px; border-radius: 30px; font-family: 'Fredoka One';">15 Memories 📷</p>
             <div class="photo-grid" id="photo-container"></div>
         </div>
 
@@ -394,7 +318,7 @@
         </div>
 
         <div id="video-section" style="display:none; margin-top: 40px;">
-            <p style="background:rgba(0, 212, 255, 0.4); display:inline-block; padding:8px 20px; border-radius:30px; font-family: 'Fredoka One'; margin-bottom: 20px;">Magical Memories 🎬</p>
+            <p style="background: rgba(192, 160, 128, 0.3); color: var(--primary-accent); display: inline-block; padding: 8px 20px; border-radius: 30px; font-family: 'Fredoka One'; margin-bottom: 20px;">Magical Memories 🎬</p>
             <div class="video-grid">
                 <div class="video-card"><video controls><source src="v1.mp4" type="video/mp4"></video><div class="video-label">Fun Times 🍭</div></div>
                 <div class="video-card"><video controls><source src="v2.mp4" type="video/mp4"></video><div class="video-label">Little Star 🌟</div></div>
@@ -404,30 +328,25 @@
         </div>
 
         <div class="letter">
-            <h3 style="font-family:'Great Vibes'; font-size:2.8rem; color:#f72585;"> Poojitha,</h3>
+            <h3 style="font-family:'Great Vibes'; font-size:2.8rem; color:var(--deep-accent);">Poojitha,</h3>
             <p>You are our Bestfriend 💎 May your world always be filled with sparkles and stardust. Keep shining! 🤍🌟</p>
-            <p style="margin-top:20px; border-top:2px dashed #f72585; padding-top:10px;">With Love, Best friends🌹</p>
+            <p style="margin-top:20px; border-top:2px dashed var(--primary-accent); padding-top:10px;">With Love, Best friends🌹</p>
         </div>
 
         <div id="wisherBox" style="margin-bottom: 50px;">
             <span class="chip">Thanvitha</span><span class="chip">Vignesh</span><span class="chip">Thirlok</span>
         </div>
-        <p style="color: white; padding-bottom: 50px; font-family: 'Fredoka One';">Designed with ❤️ by TGR</p>
+        <p style="color: var(--text-secondary); opacity: 0.7; padding-bottom: 50px; font-family: 'Fredoka One'; font-size: 0.8rem;">Designed with ❤️ by TGR</p>
     </section>
 
     <div class="flower-lights" id="f-lights">
         <script>
-            const flowersArr = ['🌸', '🌺', '🌼', '🌷', '🌹', '🌻'];
-            const lightColors = ['#ff69b4', '#ff00ff', '#ffd700', '#00d4ff', '#ffffff'];
+            const flowersArr = ['🌸', '✨', '🌼', '💜', '🌹', '🌟'];
+            const lightColors = ['#e0ac9a', '#b57edc', '#ffd700', '#ffffff', '#8e44ad'];
             for(let i=0; i<20; i++) {
                 const flower = flowersArr[Math.floor(Math.random() * flowersArr.length)];
                 const color = lightColors[Math.floor(Math.random() * lightColors.length)];
-                document.write(`
-                    <div class="flower-thread" style="animation-delay: ${Math.random() * 2}s">
-                        <div class="thread"></div>
-                        <div class="flower" style="color: ${color}">${flower}</div>
-                    </div>
-                `);
+                document.write(`<div class="flower-thread" style="animation-delay: ${Math.random() * 2}s"><div class="thread"></div><div class="flower" style="color: ${color}">${flower}</div></div>`);
             }
         </script>
     </div>
@@ -445,7 +364,7 @@
         ];
 
         const photoContainer = document.getElementById('photo-container');
-        galleryMemories.forEach((item, index) => {
+        galleryMemories.forEach((item) => {
             const pol = document.createElement('div');
             pol.className = 'polaroid';
             pol.innerHTML = `<div class="tap-placeholder">Tap</div><span>???</span>`;
@@ -454,14 +373,14 @@
         });
 
         function startHearts() {
-            const hearts = ['❤️', '💖', '💗', '💓', '✨', '💝'];
+            const hearts = ['💜', '✨', '💖', '🌟', '🌸', '🎁'];
             setInterval(() => {
                 const h = document.createElement('div');
                 h.classList.add('heart-particle');
                 h.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
                 h.style.left = Math.random() * 100 + 'vw';
-                h.style.fontSize = Math.random() * (30 - 15) + 15 + 'px';
-                h.style.animationDuration = Math.random() * (6 - 3) + 3 + 's';
+                h.style.fontSize = Math.random() * 15 + 15 + 'px';
+                h.style.animationDuration = Math.random() * 3 + 3 + 's';
                 h.style.opacity = Math.random();
                 document.body.appendChild(h);
                 setTimeout(() => h.remove(), 6000);
@@ -480,13 +399,8 @@
         function openModal() {
             document.getElementById('s1').classList.remove('active');
             document.getElementById('s2').classList.add('active');
-            
-            // Force Play Video on user interaction
             const introVid = document.getElementById('intro-vid');
-            if(introVid) {
-                introVid.play().catch(e => console.log("Video auto-play blocked, waiting for next interaction."));
-            }
-
+            if(introVid) introVid.play().catch(e => console.log("Video auto-play blocked."));
             document.getElementById('bg-music').play().catch(() => {});
         }
 
@@ -497,19 +411,28 @@
 
         function turnLights() { 
             document.getElementById('f-lights').style.display = 'flex'; 
-            confetti({ particleCount: 50, colors: ['#FF69B4', '#FFD700'] });
+            confetti({ particleCount: 50, colors: ['#b57edc', '#ffd700', '#e0ac9a'] });
         }
 
         function addBuntings() {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ffffff', '#ffd700', '#b57edc'] });
             document.getElementById('envelope').style.display = 'block';
+        }
+
+        function openGiftReveal() {
+            document.getElementById('envelope').style.display = 'none';
+            const vidContainer = document.getElementById('gift-reveal-vid-container');
+            const vid = document.getElementById('gift-reveal-vid');
+            vidContainer.style.display = 'block';
+            vid.play();
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         }
 
         function skipPin() {
             document.getElementById('s2').classList.remove('active');
             document.getElementById('s-final').style.display = "block";
-            document.body.style.background = "linear-gradient(to bottom, #7209b7, #f72585, #4cc9f0)";
-            confetti({ particleCount: 200, spread: 160 });
+            document.body.style.background = "linear-gradient(to bottom, #1a1a2e, #4a148c, #301934)";
+            confetti({ particleCount: 200, spread: 160, colors: ['#ffd700', '#b57edc', '#ffffff'] });
             startHearts();
         }
 
@@ -518,12 +441,12 @@
             document.getElementById('ribbon-msg').innerText = "Surprise Unlocked! 🎊";
             document.getElementById('memories-section').classList.add('unlocked');
             document.getElementById('cake-section').style.display = 'block';
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.5 }, colors: ['#FFD700', '#FF0055', '#FFFFFF'] });
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.5 }, colors: ['#ffd700', '#8e44ad', '#FFFFFF', '#e0ac9a'] });
         }
 
         function revealPhoto(el, src, txt) {
             el.innerHTML = `<img src="${src}"><span>${txt}</span>`;
-            confetti({ particleCount: 30, spread: 50 });
+            confetti({ particleCount: 30, spread: 50, colors: ['#b57edc', '#e0ac9a'] });
         }
 
         function cutCake() {
@@ -532,9 +455,9 @@
             cakeWrapper.classList.add('is-cut');
             document.getElementById('cake-msg').innerText = "Yum! Perfect slice for POOJI! 🍰";
             document.getElementById('video-section').style.display = 'block';
-            var duration = 5 * 1000;
+            var duration = 5000;
             var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0, colors: ['#ffd700', '#e0ac9a', '#b57edc'] };
             function randomInRange(min, max) { return Math.random() * (max - min) + min; }
             var interval = setInterval(function() {
                 var timeLeft = animationEnd - Date.now();
