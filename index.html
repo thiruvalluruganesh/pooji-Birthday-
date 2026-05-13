@@ -13,10 +13,10 @@
             --card-bg: rgba(255, 255, 255, 0.95);
             --text-primary: #2c3e50;
             --text-secondary: #fff;
-            --primary-accent: #c0a080; /* Soft Gold */
-            --secondary-accent: #b57edc; /* Lavender */
-            --vibrant-accent: #e0ac9a; /* Dusty Rose */
-            --deep-accent: #8e44ad; /* Amethyst */
+            --primary-accent: #c0a080; 
+            --secondary-accent: #b57edc; 
+            --vibrant-accent: #e0ac9a; 
+            --deep-accent: #8e44ad; 
             --btn-grad-start: #e0ac9a;
             --btn-grad-end: #b57edc;
             --box-color: #c0a080;
@@ -137,13 +137,13 @@
         .gift-wrapper:hover .gift-box-lid { transform: translateX(-50%) translateY(-35px) rotate(-10deg); }
         .gift-wrapper:hover .character-pop { transform: translateX(-50%) translateY(-50px) scale(1); opacity: 1; }
 
-        .special-frame-container { perspective: 1000px; margin: 30px auto; display: flex; justify-content: center; }
+        .special-frame-container { perspective: 1000px; margin: 20px auto; display: flex; justify-content: center; width: 100%; }
         .magic-frame {
             width: 260px; height: 320px; background: white; padding: 12px; border-radius: 15px;
             border: 4px solid #fff; animation: neonPulse 2.5s infinite ease-in-out;
             transform: rotateX(5deg); transition: 0.5s ease; position: relative; overflow: hidden;
         }
-        .magic-frame img { width: 100%; height: 82%; object-fit: cover; border-radius: 8px; }
+        .magic-frame img, .magic-frame video { width: 100%; height: 82%; object-fit: cover; border-radius: 8px; }
         .frame-caption { font-family: 'Pacifico', cursive; color: var(--deep-accent); font-size: 1.1rem; margin-top: 10px; display: block; }
 
         .poojitha-grid {
@@ -212,7 +212,8 @@
         .is-cut .cake-slice { display: block; transform: translateX(20px) rotate(3deg); }
 
         .intro-vid-container { width: 100%; border-radius: 20px; overflow: hidden; margin-bottom: 20px; border: 3px solid var(--primary-accent); background: #000; }
-        #gift-reveal-vid-container { display: none; width: 100%; margin-top: 20px; border-radius: 15px; overflow: hidden; border: 3px solid var(--secondary-accent); animation: fadeIn 1s ease; }
+        
+        #gift-reveal-vid-frame { display: none; animation: fadeIn 1s ease; }
 
         .heart-particle { position: fixed; top: -10%; user-select: none; pointer-events: none; z-index: 9999; animation: fall linear forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -222,6 +223,7 @@
 
     <audio id="bg-music" loop><source src="audio.mpeg" type="audio/mpeg"></audio>
 
+    <!-- SCREEN 1: Countdown -->
     <section id="s1" class="screen active">
         <div class="glass-card">
             <h1 class="neon-text">Surprise for You</h1>
@@ -236,6 +238,7 @@
         </div>
     </section>
 
+    <!-- SCREEN 2: Decorations & Reveal -->
     <section id="s2" class="screen">
         <div class="glass-card" id="m-ask">
             <div class="intro-vid-container">
@@ -264,15 +267,22 @@
                 <div style="font-size:1.5rem; color:var(--deep-accent); font-weight:bold; font-family:'Pacifico'; margin-top: 10px;">Tap to open! 🎁</div>
             </div>
 
-            <div id="gift-reveal-vid-container">
-                <video id="gift-reveal-vid" playsinline style="width: 100%;">
-                    <source src="VID_20260513_151013.mp4" type="video/mp4">
-                </video>
+            <!-- SEPARATE MAGIC FRAME FOR VIDEO -->
+            <div id="gift-reveal-vid-frame">
+                <div class="special-frame-container">
+                    <div class="magic-frame" style="height: auto; width: 280px; padding-bottom: 15px;">
+                        <video id="gift-reveal-vid" playsinline style="width: 100%; border-radius: 8px; display: block;">
+                            <source src="VID_20260513_151013.mp4" type="video/mp4">
+                        </video>
+                        <span class="frame-caption">A Special Reveal 🎥</span>
+                    </div>
+                </div>
                 <button class="btn-p" style="margin-top: 15px;" onclick="skipPin()">Go to Celebration! 🎉</button>
             </div>
         </div>
     </section>
 
+    <!-- SCREEN 3: FINAL CELEBRATION -->
     <section id="s-final">
         <h1 class="h-birthday">Happy Birthday, Poojitha</h1>
         <p style="color:var(--text-secondary); opacity: 0.8; letter-spacing:5px; font-family: 'Fredoka One'; margin-top: 10px;">✨ JULY 3, 2026 ✨</p>
@@ -339,6 +349,7 @@
         <p style="color: var(--text-secondary); opacity: 0.7; padding-bottom: 50px; font-family: 'Fredoka One'; font-size: 0.8rem;">Designed with ❤️ by TGR</p>
     </section>
 
+    <!-- Flower Lights Overlay -->
     <div class="flower-lights" id="f-lights">
         <script>
             const flowersArr = ['🌸', '✨', '🌼', '💜', '🌹', '🌟'];
@@ -420,11 +431,14 @@
         }
 
         function openGiftReveal() {
+            // Hide gift box
             document.getElementById('envelope').style.display = 'none';
-            const vidContainer = document.getElementById('gift-reveal-vid-container');
+            // Show video in Magic Frame
+            const vidFrame = document.getElementById('gift-reveal-vid-frame');
             const vid = document.getElementById('gift-reveal-vid');
-            vidContainer.style.display = 'block';
-            vid.play();
+            vidFrame.style.display = 'block';
+            vid.play().catch(e => console.log("Video playback requires manual touch on some devices"));
+            
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         }
 
