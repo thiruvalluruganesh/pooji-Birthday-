@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>✨ POOJITHA's Magical 3D Surprise ✨</title>
+    <title>✨ POOJITHA's Magical 3D Surprise Table ✨</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,900;1,400&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -18,6 +18,30 @@
             --magenta-glow: #ff416c;
             --btn-gradient: linear-gradient(45deg, #ff758c, #ff7eb3);
             --box-color: #e5b887;
+
+            /* --- 3D GALLERY TOKENS --- */
+            --header-height: 4rem;
+            --padding: 1rem;
+            --br: 1rem;
+            --input-border-radius: .25rem;
+            --bg-4: #353433; --bg-5: #3a3938;
+            --fg-1: #dddcda; --fg-2: #c6c3c1;
+
+            /* Group Accent Borders */
+            --red-1: #ff4b4b;       --red-3: #9e3838;       
+            --corail-1: #ff8333;    --corail-3: #9e582b;    
+            --orange-1: #ffa828;    --orange-3: #9e6d25;    
+            --yellow-1: #ffcc2a;    --yellow-3: #9e8026;    
+            --citrus-1: #f9f640;    --citrus-3: #9b9932;    
+            --lime-1: #b7ff54;      --lime-3: #759d3d;      
+            --green-1: #6aff65;     --green-3: #4a9e45;      
+            --emerald-1: #57f695;   --emerald-3: #409962;   
+            --turquoise-1: #66ffbc; --turquoise-3: #479e77; 
+            --cyan-1: #26f2d5;      --cyan-3: #259686;      
+            --sega-1: #05dbe9;      --sega-3: #138990;      
+            --sky-1: #33b3f1;       --sky-3: #2c7395;       
+            --indigo-1: #717aff;    --indigo-3: #4d519e;    
+            --lavender-1: #a369ff;  --lavender-3: #6a489e;  
         }
 
         @keyframes bgGradient {
@@ -184,11 +208,10 @@
             height: 84%; 
             object-fit: cover; 
             border-radius: 16px; 
-            transform: translateZ(20px); /* Pushes asset layer into 3D Space */
+            transform: translateZ(20px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
         
-        /* 3D Exclusive Isolated Reveal Frame */
         .isolated-reveal-frame {
             width: 340px; 
             height: auto; 
@@ -206,9 +229,7 @@
             box-shadow: 0 35px 70px rgba(0,0,0,0.7);
             transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .isolated-reveal-frame:hover {
-            transform: rotateX(5deg) rotateY(-5deg) translateZ(20px);
-        }
+        .isolated-reveal-frame:hover { transform: rotateX(5deg) rotateY(-5deg) translateZ(20px); }
         .isolated-reveal-frame video { 
             width: 100%; 
             height: auto; 
@@ -216,7 +237,7 @@
             object-fit: contain; 
             border-radius: 18px; 
             display: block; 
-            transform: translateZ(25px); /* Strong floating deep depth */
+            transform: translateZ(25px); 
             box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
 
@@ -231,55 +252,140 @@
             text-shadow: 0 3px 6px rgba(0,0,0,0.5);
         }
 
-        /* 3D Polaroids */
-        .photo-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; padding: 15px; perspective: 1000px; }
-        .polaroid { 
-            background: rgba(255, 255, 255, 0.06); 
-            padding: 12px 12px 22px 12px; 
-            color: #fff; 
-            width: 155px; 
-            cursor: pointer; 
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-            transform-style: preserve-3d;
-            transform: rotateX(10deg) rotateY(-5deg);
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, box-shadow 0.3s;
+        /* --- ANIME.JS V4 3D MATRICES ENGINE --- */
+        .reveal-section { 
+            position: relative;
+            width: 100vw; 
+            height: 80vh; 
+            margin: 40px left; 
+            opacity: 0.05; 
+            pointer-events: none; 
+            transition: opacity 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+            perspective: 1200px;
+            overflow: hidden;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
         }
-        .polaroid:hover { 
-            transform: scale(1.08) rotateX(0deg) rotateY(0deg) translateZ(15px); 
-            background: rgba(255,255,255,0.12); 
-            border-color: var(--rose-gold);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
-        .polaroid img { width: 131px; height: 131px; object-fit: cover; border-radius: 10px; transform: translateZ(10px); }
-        .polaroid span { font-size: 0.8rem; font-family: 'Playfair Display'; font-style: italic; display: block; margin-top: 10px; color: var(--rose-gold); transform: translateZ(8px); }
-        .tap-placeholder { width: 131px; height: 131px; background: rgba(0, 0, 0, 0.3); display: flex; align-items: center; justify-content: center; color: var(--rose-gold); font-weight: 600; font-size: 0.85rem; border-radius: 10px; letter-spacing: 0.5px; transform: translateZ(5px); }
+        .unlocked { opacity: 1; pointer-events: auto; }
 
-        /* 3D Video Cards */
-        .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 440px; margin: 35px auto; perspective: 1000px; }
-        .video-card { 
-            background: rgba(255,255,255,0.05); 
-            border-radius: 20px; 
-            overflow: hidden; 
-            position: relative; 
-            height: 210px; 
+        #scene {
+            position: absolute;
+            inset: 0;
+            transform-style: preserve-3d;
+            padding-top: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        #scene-content {
+            position: relative;
+            width: 100%; height: 100%;
+            transform-style: preserve-3d;
+            pointer-events: none;
+            backface-visibility: hidden;
+        }
+
+        #scene-content[data-layout="table"] {
+            display: grid;
+            grid-template-columns: repeat(18, 3.5rem);
+            grid-auto-rows: 4rem;
+            gap: 0.25rem;
+            place-content: center;
+        }
+
+        .controls {
+            position: absolute; top: 0; width: 100%;
+            height: var(--header-height);
+            display: flex; justify-content: center; align-items: center;
+            padding: var(--padding); z-index: 10;
+        }
+
+        .controls-group {
+            background: rgba(15, 12, 32, 0.85);
+            padding: 0.5rem; border-radius: var(--br);
+            display: flex; gap: 0.35rem;
+            backdrop-filter: blur(12px);
             border: 1px solid var(--card-border);
-            transform-style: preserve-3d;
-            transform: rotateY(8deg);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
-        .video-card:hover {
-            transform: rotateY(0deg) translateZ(10px);
-            box-shadow: 0 20px 45px rgba(255, 117, 140, 0.2);
-            border-color: var(--rose-gold);
-        }
-        .video-card video { width: 100%; height: 100%; object-fit: cover; }
-        .video-label { position: absolute; bottom: 0; width: 100%; background: rgba(15, 12, 32, 0.88); color: var(--rose-gold); font-size: 0.75rem; padding: 8px; font-weight: 600; transform: translateZ(5px); }
 
-        /* --- PREVIOUS CORE LAYOUT STYLES --- */
+        button.toggle {
+            background-color: rgba(255,255,255,0.06); color: #fff;
+            border: none; padding: 0.6rem 1.4rem; cursor: pointer;
+            font-size: 0.75rem; text-transform: uppercase;
+            font-family: 'Poppins', sans-serif; font-weight: 600;
+            border-radius: var(--input-border-radius);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        button.toggle:hover { background-color: rgba(255,255,255,0.15); }
+        button.toggle.is-active { background: var(--btn-gradient); color: #fff; font-weight: bold; box-shadow: 0 4px 10px rgba(255, 117, 140, 0.3); }
+
+        .element {
+            position: relative;
+            pointer-events: auto;
+            width: 3.5rem; height: 4rem;
+            border: 1px solid var(--color-3);
+            background-color: rgba(15, 12, 32, 0.9);
+            border-radius: .25rem;
+            cursor: pointer; transform-style: preserve-3d;
+            z-index: 8;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .element-image-tag {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            opacity: 0.85;
+            transition: opacity 0.2s, transform 0.3s;
+        }
+
+        .element:hover .element-image-tag { opacity: 1; transform: scale(1.08); }
+        .element:hover { border-color: var(--color-1); box-shadow: 0 0 15px var(--color-1); z-index: 50; }
+
+        .element.is-expanded {
+            width: 12rem; height: 12rem;
+            z-index: 999;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 25px var(--color-1);
+        }
+
+        .element-ui-layer { display: none; }
+
+        #scene-content:not([data-layout="table"]) .element {
+            position: absolute; left: 50%; top: 50%;
+            margin-left: -1.75rem; margin-top: -2rem;
+        }
+
+        #scene-content[data-layout="table"] .element.is-expanded {
+            left: -1.625rem; top: -1.25rem;
+            margin-left: -0.875rem; margin-top: -1rem;
+        }
+
+        /* Border Glow Matrix Mapping Styles */
+        [data-color="0"]  { --color-1: var(--red-1);       --color-3: var(--red-3);       }
+        [data-color="1"]  { --color-1: var(--corail-1);    --color-3: var(--corail-3);    }
+        [data-color="2"]  { --color-1: var(--orange-1);    --color-3: var(--orange-3);    }
+        [data-color="3"]  { --color-1: var(--yellow-1);    --color-3: var(--yellow-3);    }
+        [data-color="4"]  { --color-1: var(--citrus-1);    --color-3: var(--citrus-3);    }
+        [data-color="5"]  { --color-1: var(--lime-1);      --color-3: var(--lime-3);      }
+        [data-color="6"]  { --color-1: var(--green-1);     --color-3: var(--green-3);     }
+        [data-color="7"]  { --color-1: var(--emerald-1);   --color-3: var(--emerald-3);   }
+        [data-color="8"]  { --color-1: var(--turquoise-1); --color-3: var(--turquoise-3); }
+        [data-color="9"]  { --color-1: var(--cyan-1);      --color-3: var(--cyan-3);      }
+        [data-color="10"] { --color-1: var(--sega-1);      --color-3: var(--sega-3);      }
+        [data-color="11"] { --color-1: var(--sky-1);       --color-3: var(--sky-3);       }
+        [data-color="12"] { --color-1: var(--indigo-1);    --color-3: var(--indigo-3);    }
+
+        /* --- CORE VISUAL LABELS --- */
         .poojitha-grid {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
             max-width: 400px; margin: 40px auto; padding: 20px;
@@ -303,13 +409,10 @@
         .ribbon-cut .ribbon-right { transform: translateX(100%); }
         .ribbon-cut .scissors { opacity: 0; pointer-events: none; }
 
-        .flower-lights { position: fixed; top: 0; width: 100%; display: none; justify-content: space-between; padding: 0 10px; z-index: 100; }
+        .flower-lights { position: fixed; top: 0; width: 100%; display: none; justify-content: space-between; padding: 0 10px; z-index: 100; pointer-events: none; }
         .flower-thread { display: flex; flex-direction: column; align-items: center; animation: sway 3.5s infinite alternate ease-in-out; transform-origin: top center; }
         .thread { width: 1px; height: 70px; background: rgba(255,255,255,0.15); }
         .flower { font-size: 1.4rem; filter: drop-shadow(0 0 10px currentColor); }
-
-        .reveal-section { max-width: 900px; margin: 40px auto; opacity: 0.15; pointer-events: none; transition: 1.2s cubic-bezier(0.23, 1, 0.32, 1); }
-        .unlocked { opacity: 1; pointer-events: auto; }
 
         .cake-container { position: relative; width: 200px; height: 180px; margin: 30px auto; cursor: pointer; }
         .cake-img { width: 100%; height: 100%; position: absolute; top: 0; left: 0; transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -333,6 +436,17 @@
         #s-final { background: transparent; color: var(--text-secondary); display: none; padding: 60px 15px; text-align: center; }
         .h-birthday { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 3.5rem; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.2); }
         .heart-particle { position: fixed; top: -10%; user-select: none; pointer-events: none; z-index: 9999; animation: fall linear forwards; }
+        
+        /* Video Structural Grid Layouts */
+        .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 440px; margin: 35px auto; perspective: 1000px; }
+        .video-card { 
+            background: rgba(255,255,255,0.05); border-radius: 20px; overflow: hidden; position: relative; height: 210px; border: 1px solid var(--card-border);
+            transform-style: preserve-3d; transform: rotateY(8deg); box-shadow: 0 15px 30px rgba(0,0,0,0.4); transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .video-card:hover { transform: rotateY(0deg) translateZ(10px); box-shadow: 0 20px 45px rgba(255, 117, 140, 0.2); border-color: var(--rose-gold); }
+        .video-card video { width: 100%; height: 100%; object-fit: cover; }
+        .video-label { position: absolute; bottom: 0; width: 100%; background: rgba(15, 12, 32, 0.88); color: var(--rose-gold); font-size: 0.75rem; padding: 8px; font-weight: 600; transform: translateZ(5px); }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -433,13 +547,30 @@
             <p id="ribbon-msg" style="position:absolute; bottom:0; font-weight:600; font-size: 0.9rem; color: var(--rose-gold); letter-spacing: 0.5px;">Cut the Ribbon!</p>
         </div>
 
-        <!-- 3D Polaroid Section -->
+        <!-- NEW REPLACED SECTION: 3D ANIME.JS METRIC PERIODIC SYSTEM GALLERY -->
         <div id="memories-section" class="reveal-section">
-            <p style="background: rgba(229, 184, 135, 0.15); border: 1px solid rgba(229, 184, 135, 0.3); color: var(--rose-gold); display: inline-block; padding: 8px 22px; border-radius: 30px; font-size: 0.85rem; font-weight: 600; margin-bottom: 20px;">15 Memories 📷</p>
-            <div class="photo-grid" id="photo-container"></div>
+            <div class="controls">
+                <div class="controls-group">
+                    <button class="toggle is-active" id="table">table</button>
+                    <button class="toggle" id="sphere">sphere</button>
+                    <button class="toggle" id="helix">helix</button>
+                    <button class="toggle" id="grid">grid</button>
+                </div>
+            </div>
+
+            <div id="scene">
+                <div id="scene-content" data-layout="table"></div>
+            </div>
+
+            <template id="element">
+                <button class="element">
+                    <img class="element-image-tag" alt="Gallery Asset" src="">
+                    <div class="element-ui-layer"></div>
+                </button>
+            </template>
         </div>
 
-        <div id="cake-section" style="display:none;" onclick="cutCake()">
+        <div id="cake-section" style="display:none; margin-top:40px;" onclick="cutCake()">
             <div id="cake-wrapper" class="cake-container">
                 <div class="cake-name">POOJI</div>
                 <img src="https://img.icons8.com/color/480/birthday-cake.png" class="cake-img cake-whole">
@@ -466,6 +597,10 @@
             <p style="margin-top:24px; border-top:1px dashed var(--card-border); padding-top:14px; font-size: 0.85rem; color: var(--rose-gold); font-weight:600;">With Love, Best friends🌹</p>
         </div>
 
+        <div class="vishesh-footer" style="margin-bottom:20px; font-size:0.75rem; color:rgba(255,255,255,0.4);">
+            3D equations ported from Three.js Demo by <a href="https://instagram.com/codingwithvishesh" target="_blank" style="color:var(--sky-1); text-decoration:none;">codingwithvishesh</a>
+        </div>
+
         <div id="wisherBox" style="margin-bottom: 60px;">
             <span class="chip">Thanvitha</span><span class="chip">Vignesh</span><span class="chip">Thirlok</span>
         </div>
@@ -475,8 +610,301 @@
     <!-- Flower Lights Overlay -->
     <div class="flower-lights" id="f-lights"></div>
 
+    <!-- ANIME V4 MODULE EXPORTS SCRIPT ENGINE -->
+    <script type="module">
+        import { createLayout, utils, stagger, spring, createTimer, createAnimatable } from 'https://esm.sh/animejs@4.3.0';
+
+        const ELEMENT_FIELDS = { SYMBOL: 0, NAME: 1, COLOR: 2, COLUMN: 3, ROW: 4 };
+        const ELEMENT_STRIDE = 9;
+
+        // Structured Layout Array Map for Periodic Positions
+        const elements = [
+          'H', 'Hydrogen', 0, 1, 1, 1.008, 0.08988, -259.16, -252.88,
+          'He', 'Helium', 1, 18, 1, 4.0026, 0.1786, -272.2, -268.93,
+          'Li', 'Lithium', 2, 1, 2, 6.94, 0.534, 180.5, 1329.85,
+          'Be', 'Beryllium', 3, 2, 2, 9.0122, 1.85, 1286.85, 2468.85,
+          'B', 'Boron', 4, 13, 2, 10.81, 2.08, 2075.85, 3926.85,
+          'C', 'Carbon', 0, 14, 2, 12.011, 1.821, null, null,
+          'N', 'Nitrogen', 0, 15, 2, 14.007, 1.251, -210, -195.79,
+          'O', 'Oxygen', 0, 16, 2, 15.999, 1.429, -218.79, -182.96,
+          'F', 'Fluorine', 0, 17, 2, 18.998, 1.696, -219.67, -188.12,
+          'Ne', 'Neon', 1, 18, 2, 20.18, 0.9002, -248.59, -246.05,
+          'Na', 'Sodium', 2, 1, 3, 22.99, 0.968, 97.79, 882.94,
+          'Mg', 'Magnesium', 3, 2, 3, 24.305, 1.738, 649.85, 1089.85,
+          'Al', 'Aluminium', 5, 13, 3, 26.982, 2.7, 660.32, 2469.85,
+          'Si', 'Silicon', 4, 14, 3, 28.086, 2.329, 1413.85, 3264.85,
+          'P', 'Phosphorus', 0, 15, 3, 30.974, 1.823, null, null,
+          'S', 'Sulfur', 0, 16, 3, 32.06, 2.07, 115.21, 444.65,
+          'Cl', 'Chlorine', 0, 17, 3, 35.45, 3.2, -101.55, -34.04,
+          'Ar', 'Argon', 1, 18, 3, 39.948, 1.784, -189.34, -185.85,
+          'K', 'Potassium', 2, 1, 4, 39.098, 0.862, 63.55, 758.85,
+          'Ca', 'Calcium', 3, 2, 4, 40.078, 1.55, 841.85, 1483.85,
+          'Sc', 'Scandium', 6, 3, 4, 44.956, 2.985, 1540.85, 2835.85,
+          'Ti', 'Titanium', 6, 4, 4, 47.867, 4.506, 1667.85, 3286.85,
+          'V', 'Vanadium', 6, 5, 4, 50.942, 6, 1909.85, 3406.85,
+          'Cr', 'Chromium', 6, 6, 4, 51.996, 7.19, 1906.85, 2670.85,
+          'Mn', 'Manganese', 6, 7, 4, 54.938, 7.21, 1245.85, 2060.85,
+          'Fe', 'Iron', 6, 8, 4, 55.845, 7.874, 1537.85, 2860.85,
+          'Co', 'Cobalt', 6, 9, 4, 58.933, 8.9, 1494.85, 2926.85,
+          'Ni', 'Nickel', 6, 10, 4, 58.693, 8.908, 1454.85, 2729.85,
+          'Cu', 'Copper', 6, 11, 4, 63.546, 8.96, 1084.62, 2561.85,
+          'Zn', 'Zinc', 5, 12, 4, 65.382, 7.14, 419.53, 906.85,
+          'Ga', 'Gallium', 5, 13, 4, 69.723, 5.91, 29.76, 2399.85,
+          'Ge', 'Germanium', 4, 14, 4, 72.631, 5.323, 938.25, 2832.85,
+          'As', 'Arsenic', 4, 15, 4, 74.922, 5.727, null, null,
+          'Se', 'Selenium', 0, 16, 4, 78.972, 4.81, 220.85, 684.85,
+          'Br', 'Bromine', 0, 17, 4, 79.904, 3.103, -7.35, 58.85,
+          'Kr', 'Krypton', 1, 18, 4, 83.798, 3.749, -157.37, -153.22,
+          'Rb', 'Rubidium', 2, 1, 5, 85.468, 1.532, 39.3, 687.85,
+          'Sr', 'Strontium', 3, 2, 5, 87.621, 2.64, 776.85, 1376.85,
+          'Y', 'Yttrium', 6, 3, 5, 88.906, 4.472, 1525.85, 2929.85,
+          'Zr', 'Zirconium', 6, 4, 5, 91.224, 6.52, 1854.85, 4376.85,
+          'Nb', 'Niobium', 6, 5, 5, 92.906, 8.57, 2476.85, 4743.85,
+          'Mo', 'Molybdenum', 6, 6, 5, 95.951, 10.28, 2622.85, 4638.85,
+          'Tc', 'Technetium', 6, 7, 5, 98, 11, 2156.85, 4264.85,
+          'Ru', 'Ruthenium', 6, 8, 5, 101.07, 12.45, 2333.85, 4149.85,
+          'Rh', 'Rhodium', 6, 9, 5, 102.91, 12.41, 1963.85, 3694.85,
+          'Pd', 'Palladium', 6, 10, 5, 106.42, 12.023, 1554.9, 2962.85,
+          'Ag', 'Silver', 6, 11, 5, 107.87, 10.49, 961.78, 2161.85,
+          'Cd', 'Cadmium', 5, 12, 5, 112.41, 8.65, 321.07, 766.85,
+          'In', 'Indium', 5, 13, 5, 114.82, 7.31, 156.6, 2071.85,
+          'Sn', 'Tin', 5, 14, 5, 118.71, 7.365, 231.93, 2601.85,
+          'Sb', 'Antimony', 4, 15, 5, 121.76, 6.697, 630.63, 1634.85,
+          'Te', 'Tellurium', 4, 16, 5, 127.6, 6.24, 449.51, 987.85,
+          'I', 'Iodine', 0, 17, 5, 126.9, 4.933, 113.7, 184.25,
+          'Xe', 'Xenon', 1, 18, 5, 131.29, 5.894, -111.75, -108.1,
+          'Cs', 'Cesium', 2, 1, 6, 132.91, 1.93, 28.55, 670.85,
+          'Ba', 'Barium', 3, 2, 6, 137.33, 3.51, 726.85, 1844.85,
+          'Hf', 'Hafnium', 6, 4, 6, 178.49, 13.31, 2232.85, 4602.85,
+          'Ta', 'Tantalum', 6, 5, 6, 180.95, 16.69, 3016.85, 5457.85,
+          'W', 'Tungsten', 6, 6, 6, 183.84, 19.25, 3421.85, 5929.85,
+          'Re', 'Rhenium', 6, 7, 6, 186.21, 21.02, 3185.85, 5595.85,
+          'Os', 'Osmium', 6, 8, 6, 190.23, 22.59, 3032.85, 5011.85,
+          'Ir', 'Iridium', 6, 9, 6, 192.22, 22.56, 2445.85, 4129.85,
+          'Pt', 'Platinum', 6, 10, 6, 195.08, 21.45, 1768.25, 3824.85,
+          'Au', 'Gold', 6, 11, 6, 196.97, 19.3, 1064.18, 2969.85,
+          'Hg', 'Mercury', 5, 12, 6, 200.59, 13.534, -38.83, 356.73,
+          'Tl', 'Thallium', 5, 13, 6, 204.38, 11.85, 303.85, 1472.85,
+          'Pb', 'Lead', 5, 14, 6, 207.21, 11.34, 327.46, 1748.85,
+          'Bi', 'Bismuth', 5, 15, 6, 208.98, 9.78, 271.55, 1563.85,
+          'Po', 'Polonium', 4, 16, 6, 209, 9.196, 253.85, 961.85,
+          'At', 'Astatine', 0, 17, 6, 210, 6.35, 301.85, 336.85,
+          'Rn', 'Radon', 1, 18, 6, 222, 9.73, -71.15, -61.65,
+          'Fr', 'Francium', 2, 1, 7, 223, 1.87, 26.85, 676.85,
+          'Ra', 'Radium', 3, 2, 7, 226, 5.5, 959.85, 1736.85,
+          'Rf', 'Rutherfordium', 6, 4, 7, 267, 23.2, 2126.85, 5526.85,
+          'Db', 'Dubnium', 6, 5, 7, 268, 29.3, null, null,
+          'Sg', 'Seaborgium', 6, 6, 7, 269, 35, null, null,
+          'Bh', 'Bohrium', 6, 7, 7, 270, 37.1, null, null,
+          'Hs', 'Hassium', 6, 8, 7, 269, 40.7, -147.15, null,
+          'Mt', 'Meitnerium', 12, 9, 7, 278, 37.4, null, null,
+          'Ds', 'Darmstadtium', 12, 10, 7, 281, 34.8, null, null,
+          'Rg', 'Roentgenium', 12, 11, 7, 282, 28.7, null, null,
+          'Cn', 'Copernicium', 12, 12, 7, 285, 14, null, 3296.85,
+          'Nh', 'Nihonium', 12, 13, 7, 286, 16, 426.85, 1156.85,
+          'Fl', 'Flerovium', 12, 14, 7, 289, 14, 66.85, 146.85,
+          'Mc', 'Moscovium', 12, 15, 7, 289, 13.5, 396.85, 1126.85,
+          'Lv', 'Livermorium', 12, 16, 7, 293, 12.9, 435.85, 811.85,
+          'Ts', 'Tennessine', 12, 17, 7, 294, 7.17, 449.85, 609.85,
+          'Og', 'Oganesson', 12, 18, 7, 294, 4.95, null, 76.85,
+          'La', 'Lanthanum', 7, 3, 8, 138.91, 6.162, 919.85, 3463.85,
+          'Ce', 'Cerium', 7, 4, 8, 140.12, 6.77, 794.85, 3442.85,
+          'Pr', 'Praseodymium', 7, 5, 8, 140.91, 6.77, 934.85, 3129.85,
+          'Nd', 'Neodymium', 7, 6, 8, 144.24, 7.01, 1023.85, 3073.85,
+          'Pm', 'Promethium', 7, 7, 8, 145, 7.26, 1041.85, 2999.85,
+          'Sm', 'Samarium', 7, 8, 8, 150.36, 7.52, 1071.85, 1899.85,
+          'Eu', 'Europium', 7, 9, 8, 151.96, 5.264, 825.85, 1528.85,
+          'Gd', 'Gadolinium', 7, 10, 8, 157.25, 7.9, 1311.85, 2999.85,
+          'Tb', 'Terbium', 7, 11, 8, 158.93, 8.23, 1355.85, 3122.85,
+          'Dy', 'Dysprosium', 7, 12, 8, 162.5, 8.54, 1406.85, 2566.85,
+          'Ho', 'Holmium', 7, 13, 8, 164.93, 8.79, 1460.85, 2599.85,
+          'Er', 'Erbium', 7, 14, 8, 167.26, 9.066, 1528.85, 2867.85,
+          'Tm', 'Thulium', 7, 15, 8, 168.93, 9.32, 1544.85, 1949.85,
+          'Yb', 'Ytterbium', 7, 16, 8, 173.05, 6.9, 823.85, 1195.85,
+          'Lu', 'Lutetium', 7, 17, 8, 174.97, 9.841, 1651.85, 3401.85,
+          'Ac', 'Actinium', 8, 3, 9, 227, 10, 1226.85, 3226.85,
+          'Th', 'Thorium', 8, 4, 9, 232.04, 11.724, 1749.85, 4787.85,
+          'Pa', 'Protactinium', 8, 5, 9, 231.04, 15.37, 1567.85, 4026.85,
+          'U', 'Uranium', 8, 6, 9, 238.03, 19.1, 1132.15, 4130.85,
+          'Np', 'Neptunium', 8, 7, 9, 237, 20.45, 638.85, 4173.85,
+          'Pu', 'Plutonium', 8, 8, 9, 244, 19.816, 639.35, 3231.85,
+          'Am', 'Americium', 8, 9, 9, 243, 12, 1175.85, 2606.85,
+          'Cm', 'Curium', 8, 10, 9, 247, 13.51, 1339.85, 3109.85,
+          'Bk', 'Berkelium', 8, 11, 9, 247, 14.78, 985.85, 2626.85,
+          'Cf', 'Californium', 8, 12, 9, 251, 15.1, 899.85, 1469.85,
+          'Es', 'Einsteinium', 8, 13, 9, 252, 8.84, 859.85, 995.85,
+          'Fm', 'Fermium', 8, 14, 9, 257, null, 1526.85, null,
+          'Md', 'Mendelevium', 8, 15, 9, 258, null, 826.85, null,
+          'No', 'Nobelium', 8, 16, 9, 259, null, 826.85, null,
+          'Lr', 'Lawrencium', 8, 17, 9, 266, null, 1626.85, null
+        ];
+
+        const [ $sceneContent ] = utils.$('#scene-content');
+        const [ $template ] = utils.$('#element');
+
+        // Dynamically build cells referencing images directory maps sequentially
+        for (let i = 0, l = elements.length / ELEMENT_STRIDE; i < l; i++) {
+          const offset = i * ELEMENT_STRIDE;
+          const $el = $template.content.cloneNode(true);
+          const $element = $el.querySelector('.element');
+          const $img = $el.querySelector('.element-image-tag');
+          
+          $element.dataset.color = elements[offset + ELEMENT_FIELDS.COLOR];
+          $element.style.gridColumn = elements[offset + ELEMENT_FIELDS.COLUMN];
+          $element.style.gridRow = elements[offset + ELEMENT_FIELDS.ROW];
+          
+          // Pulls sequentially from your folder files: images/1.jpg, images/2.jpg ... up to 118
+          $img.src = `images/${i + 1}.jpg`;
+          
+          // Safeguard: uses element background variables cleanly if image path fails
+          $img.onerror = () => { $img.style.opacity = '0'; };
+          
+          $sceneContent.appendChild($el);
+        }
+
+        const cards = utils.$('#scene-content .element');
+
+        const elementsLayout = createLayout($sceneContent, {
+          properties: ['font-size'],
+          duration: 2000,
+          ease: 'inOutExpo',
+        });
+
+        // Spatial Kinetic Pointer Track Calculations Engine
+        const sceneAnimatable = createAnimatable('#scene', { rotateX: 200, rotateY: 200 });
+        const pointer = { x: 0, y: 0, rotateX: 15, rotateY: 20, rx: 0, ry: 0 };
+
+        createTimer({
+          onUpdate: () => {
+            pointer.rx = utils.lerp(pointer.rx, pointer.rotateX, .01);
+            pointer.ry = utils.lerp(pointer.ry, pointer.rotateY, .01);
+            sceneAnimatable.rotateX(pointer.y * pointer.rx);
+            sceneAnimatable.rotateY(pointer.x * pointer.ry);
+          }
+        });
+
+        // 3D Geometric Mathematical Coordinates Mappings
+        const transformLayout = {
+          table: () => {
+            pointer.rotateX = 15; pointer.rotateY = 20;
+            cards.forEach($el => {
+              $el.style.opacity = 1;
+              $el.style.transform = $el.classList.contains('is-expanded') ? 'translateZ(60px)' : 'translateZ(10px)';
+            });
+          },
+          sphere: () => {
+            const radius = 330; pointer.rotateX = 40; pointer.rotateY = 360;
+            cards.forEach(($el, i) => {
+              const offsetZ = $el.classList.contains('is-expanded') ? 35 : 0;
+              const phi = Math.acos(-1 + (2 * i) / cards.length);
+              const theta = Math.sqrt(cards.length * Math.PI) * phi;
+              const sinPhi = Math.sin(phi);
+              const x = radius * sinPhi * Math.cos(theta);
+              const y = radius * Math.cos(phi);
+              const z = radius * sinPhi * Math.sin(theta);
+              const yaw = Math.atan2(x, z);
+              const pitch = -Math.atan2(y, Math.hypot(x, z));
+              $el.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotateY(${yaw}rad) rotateX(${pitch}rad) translateZ(${offsetZ}px)`;
+            });
+          },
+          helix: () => {
+            pointer.rotateX = 30; pointer.rotateY = 300;
+            const radius = 430; const thetaStep = 0.16; const verticalSpacing = 3.6;
+            const yOffset = (cards.length * verticalSpacing) / 2;
+            cards.forEach(($el, i) => {
+              const offsetZ = $el.classList.contains('is-expanded') ? 35 : 0;
+              const theta = i * thetaStep + Math.PI;
+              const y = -(i * verticalSpacing) + yOffset;
+              const x = radius * Math.sin(theta);
+              const z = radius * Math.cos(theta);
+              const yaw = Math.atan2(x, z);
+              const pitch = -Math.atan2(y, Math.hypot(x, z) * 2);
+              $el.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotateY(${yaw}rad) rotateX(${pitch}rad) translateZ(${offsetZ}px)`;
+            });
+          },
+          grid: () => {
+            pointer.rotateX = 10; pointer.rotateY = 60;
+            const cols = 5; const rows = 5; const colGap = 165; const rowGap = 115; const depthGap = 165;
+            const perLayer = cols * rows; const layers = Math.ceil(cards.length / perLayer);
+            cards.forEach(($el, i) => {
+              const offsetZ = $el.classList.contains('is-expanded') ? 35 : 0;
+              const col = i % cols; const row = Math.floor(i / cols) % rows; const layer = Math.floor(i / perLayer);
+              const x = (col - (cols - 1) / 2) * colGap;
+              const y = ((rows - 1) / 2 - row) * rowGap;
+              const z = offsetZ + ((layer - (layers - 1) / 2) * depthGap);
+              $el.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+            });
+          },
+          random: () => {
+            pointer.rotateX = 15; pointer.rotateY = 20;
+            utils.set(cards, { x: () => utils.random(-500, 500), y: () => utils.random(-500, 500), z: () => utils.random(-500, 500)});
+          }
+        };
+
+        // Pointermove Coordinates Map Pipeline Listener
+        document.addEventListener('pointermove', event => {
+          const hw = window.innerWidth * .5; const hh = window.innerHeight * .5;
+          pointer.x = utils.mapRange(event.clientX - hw, -hw, hw, 1, -1);
+          pointer.y = utils.mapRange(event.clientY - hh, -hh, hh, -1, 1);
+        });
+
+        const toggles = utils.$('.controls button.toggle');
+
+        // Dynamic State Selection & Spring Transformation Hooks
+        document.addEventListener('click', event => {
+          const $toggle = event.target.closest('.controls button.toggle');
+          if ($toggle) {
+            toggles.forEach(button => button.classList.remove('is-active'));
+            $toggle.classList.add('is-active');
+            const layoutType = $toggle.id;
+            elementsLayout.update(() => {
+              cards.forEach($el => $el.classList.remove('is-expanded'));
+              $sceneContent.dataset.layout = layoutType;
+              transformLayout[layoutType]();
+            }, {
+              delay: stagger([0, 750], { from: 'random' })
+            });
+            return;
+          }
+          
+          const $card = event.target.closest('#scene-content .element');
+          if ($card) {
+            const shouldExpand = !$card.classList.contains('is-expanded');
+            elementsLayout.update(() => {
+              cards.forEach($el => $el.classList.remove('is-expanded'));
+              if (shouldExpand) $card.classList.add('is-expanded');
+              transformLayout[$sceneContent.dataset.layout]();
+            },{
+              ease: spring({ bounce: .2, duration: 350 }),
+            });
+          }
+        });
+
+        document.addEventListener('keydown', event => {
+          if (event.key !== 'Escape') return;
+          const hasExpandedCard = cards.some($el => $el.classList.contains('is-expanded'));
+          if (!hasExpandedCard) return;
+          elementsLayout.update(() => {
+            cards.forEach($el => $el.classList.remove('is-expanded'));
+            transformLayout[$sceneContent.dataset.layout]();
+          },{
+            ease: spring({ bounce: .3, duration: 350 }),
+          });
+        });
+
+        // Initialize Core Structural Layout Matrix on Startup Execution
+        transformLayout.random();
+        utils.set(cards, { opacity: 0 });
+        window.initialize3DTable = function() {
+            elementsLayout.update(() => transformLayout.table(), {
+                delay: stagger([0, 750], { from: 'random' })
+            });
+        };
+    </script>
+
+    <!-- CORE SYSTEM SURPRISE LOGIC HANDLERS -->
     <script>
-        // Inject Flower Lights
+        // Inject Flower Lights Overlay
         const flowersArr = ['🌸', '✨', '🌼', '💜', '🌹', '🌟'];
         const lightColors = ['#e5b887', '#ff7eb3', '#ffd700', '#ffffff', '#ff416c'];
         const fLightsContainer = document.getElementById('f-lights');
@@ -489,28 +917,7 @@
         }
         fLightsContainer.innerHTML = lightsHTML;
 
-        // Initialize Memories Gallery Grid
-        const galleryMemories = [
-            { src: '1.jpeg', caption: 'Happy Days!' }, { src: '2.jpeg', caption: 'So Much Love!' },
-            { src: '3.jpeg', caption: 'Our Princess 👑' }, { src: '4.jpeg', caption: 'Sweet Smile!' },
-            { src: '5.jpeg', caption: 'Pure Joy 💖' }, { src: '6.jpeg', caption: 'Stay Blessed 🌸' },
-            { src: '7.jpeg', caption: 'Lovely! ✨' }, { src: '8.jpeg', caption: 'Memories...' },
-            { src: '9.jpeg', caption: 'Angel Face' }, { src: '10.jpeg', caption: 'Sweet Heart' },
-            { src: '11.jpeg', caption: 'Star Girl 🌟' }, { src: '12.jpeg', caption: 'Shining Bright' },
-            { src: '13.jpeg', caption: 'Little Flower' }, { src: '14.jpeg', caption: 'Too Cute!' },
-            { src: '15.jpeg', caption: 'Birthday! 🎉' }
-        ];
-
-        const photoContainer = document.getElementById('photo-container');
-        galleryMemories.forEach((item) => {
-            const pol = document.createElement('div');
-            pol.className = 'polaroid';
-            pol.innerHTML = `<div class="tap-placeholder">Tap</div><span>???</span>`;
-            pol.onclick = function() { revealPhoto(this, item.src, item.caption); };
-            photoContainer.appendChild(pol);
-        });
-
-        // Animation and Interactions Logic
+        // Falling Background Heart Particle Generator
         function startHearts() {
             const hearts = ['💜', '✨', '💖', '🌟', '🌸', '🎁'];
             setInterval(() => {
@@ -526,6 +933,7 @@
             }, 300);
         }
 
+        // Live Countdown Clock Calculation Engine
         const targetDate = new Date("July 3, 2026 00:00:00").getTime();
         setInterval(() => {
             const distance = targetDate - new Date().getTime();
@@ -539,7 +947,7 @@
             document.getElementById('s1').classList.remove('active');
             document.getElementById('s2').classList.add('active');
             const introVid = document.getElementById('intro-vid');
-            if(introVid) introVid.play().catch(e => console.log("Video auto-play blocked."));
+            if(introVid) introVid.play().catch(e => console.log("Video autoplay flagged."));
             document.getElementById('bg-music').play().catch(() => {});
         }
 
@@ -563,7 +971,7 @@
             document.getElementById('s-special-reveal').classList.add('active');
             
             const vid = document.getElementById('gift-reveal-vid');
-            if(vid) vid.play().catch(e => console.log("Video playback requires interactive touch."));
+            if(vid) vid.play().catch(e => console.log("Playback interaction holding."));
             confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
         }
 
@@ -577,15 +985,15 @@
 
         function cutRibbon() {
             document.getElementById('ribbon-container').classList.add('ribbon-cut');
-            document.getElementById('ribbon-msg').innerText = "Surprise Unlocked! 🎊";
+            document.getElementById('ribbon-msg').innerText = "3D Memory Matrix Unlocked! 🎊";
             document.getElementById('memories-section').classList.add('unlocked');
             document.getElementById('cake-section').style.display = 'block';
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.5 }, colors: ['#ffd700', '#ff416c', '#FFFFFF', '#e5b887'] });
-        }
-
-        function revealPhoto(el, src, txt) {
-            el.innerHTML = `<img src="${src}" style="transform: translateZ(10px);"><span>${txt}</span>`;
-            confetti({ particleCount: 30, spread: 50, colors: ['#ff7eb3', '#e5b887'] });
+            
+            // Trigger the Anime v4 initialization runtime
+            if(window.initialize3DTable) {
+                window.initialize3DTable();
+            }
         }
 
         function cutCake() {
