@@ -448,43 +448,9 @@
         .video-label { position: absolute; bottom: 0; width: 100%; background: rgba(15, 12, 32, 0.88); color: var(--rose-gold); font-size: 0.75rem; padding: 8px; font-weight: 600; transform: translateZ(5px); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- DESKTOP ACCESS ONLY INTERCEPTOR LOCK --- */
-        #desktop-lock-screen {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: var(--bg-gradient);
-            z-index: 100000;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
-            text-align: center;
-        }
-
-        @media (max-width: 1024px) {
-            body { overflow: hidden !important; }
-            #desktop-lock-screen { display: flex; }
-        }
     </style>
 </head>
 <body>
-
-    <!-- Mobile Lock Screen Overlay Interceptor -->
-    <div id="desktop-lock-screen">
-        <div class="glass-card" style="border-color: var(--rose-gold); max-width: 380px;">
-            <div style="font-size: 3.5rem; margin-bottom: 15px; animation: float 3s infinite ease-in-out;">💻</div>
-            <h2 class="neon-text" style="font-size: 24px;">Desktop Exclusive</h2>
-            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-top: 10px;">
-                Poojitha's magical surprise features complex high-performance <strong>3D matrix equations & galleries</strong> optimized uniquely for wide computer screens.
-            </p>
-            <p style="color: var(--rose-gold); font-size: 0.8rem; font-weight: 600; margin-top: 25px; text-transform: uppercase; letter-spacing: 1px;">
-                ✨ Switch to a Laptop or PC to Unlock! ✨
-            </p>
-        </div>
-    </div>
 
     <audio id="bg-music" loop><source src="audio.mpeg" type="audio/mpeg"></audio>
 
@@ -632,7 +598,7 @@
         </div>
 
         <div class="vishesh-footer" style="margin-bottom:20px; font-size:0.75rem; color:rgba(255,255,255,0.4);">
-            3D equations ported from Three.js Demo by <a href="https://instagram.com/codingwithvishesh" target="_blank" style="color:var(--sky-1); text-decoration:none;">codingwithvishesh</a>
+             <a href="codingwith TGR " target="_blank" style="color:var(--sky-1); text-decoration:none;"> </a>
         </div>
 
         <div id="wisherBox" style="margin-bottom: 60px;">
