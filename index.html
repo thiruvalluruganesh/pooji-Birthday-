@@ -379,25 +379,32 @@
         </div>
     </section>
     
- 
-  <section id="s-final">
-    <h1 class="h-birthday">Happy Birthday, Poojitha</h1>
-    <p style="color:var(--rose-gold); letter-spacing:4px; font-size: 0.75rem; font-weight:600; margin-top: 8px;">✨ JULY 3, 2026 ✨</p>
+    <section id="s-final">
+        <h1 class="h-birthday">Happy Birthday, Poojitha</h1>
+        <p style="color:var(--rose-gold); letter-spacing:4px; font-size: 0.75rem; font-weight:600; margin-top: 8px;">✨ JULY 3, 2026 ✨</p>
 
-    <div class="special-frame-container">
-        <div class="magic-frame">
-            <div class="slide-nav prev" onclick="changeSlide(-1)">❮</div>
-            <div class="slider-window">
-                <div class="slide-track" id="main-slide-track">
-                    <!-- Added sample image tag -->
-                    <img src="IMG-20260623-WA0027.jpg" alt="Birthday Celebration">
-                </div>
-            </div>
-            <span class="frame-caption">Our Brightest Star ✨</span>
+        <div class="pooji-main-frame" style="
+            max-width: 400px; 
+            margin: 20px auto; 
+            padding: 10px; 
+            border: 3px solid var(--rose-gold); 
+            border-radius: 20px; 
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        ">
+            <img src="IMG-20260623-WA0027.jpg" alt="Poojitha" style="
+                width: 100%; 
+                border-radius: 12px; 
+                display: block;
+            ">
+            <p class="frame-caption" style="
+                text-align: center; 
+                margin-top: 15px; 
+                font-size: 1.2rem; 
+                color: white;
+                font-family: 'Segoe UI', sans-serif;
+            ">Our Brightest Star ✨</p>
         </div>
-    </div> 
-</section>
-
 
         <div class="poojitha-grid">
             <div class="grid-item"><span class="grid-letter">P</span><span class="grid-desc">Pure Soul</span></div>
@@ -523,7 +530,7 @@
             document.getElementById('s1').classList.remove('active');
             document.getElementById('s2').classList.add('active');
             const introVid = document.getElementById('intro-vid');
-            if(introVid) introVid.play().catch(e => console.log("Video interaction hold."));
+            if(introVid) introVid.play().catch(() => {});
             document.getElementById('bg-music').play().catch(() => {});
         }
 
@@ -546,7 +553,7 @@
             document.getElementById('s2').classList.remove('active');
             document.getElementById('s-special-reveal').classList.add('active');
             const vid = document.getElementById('gift-reveal-vid');
-            if(vid) vid.play().catch(e => console.log("Playback flag."));
+            if(vid) vid.play().catch(() => {});
         }
 
         function goToCelebration() {
@@ -554,7 +561,6 @@
             document.getElementById('s-final').style.display = "block";
             confetti({ particleCount: 150, spread: 100 });
             startHearts();
-            initializeMainSlider();
         }
 
         function cutRibbon() {
@@ -571,31 +577,6 @@
             document.getElementById('cake-msg').innerText = "Yum! Perfect slice for POOJI! 🍰";
             document.getElementById('video-section').style.display = 'block';
             confetti({ particleCount: 80, spread: 100 });
-        }
-
-        let currentSlideIndex = 0;
-        let totalSlidesCount = 34; 
-
-        function initializeMainSlider() {
-            const track = document.getElementById('main-slide-track');
-            let trackHTML = '';
-            for (let i = 1; i <= totalSlidesCount; i++) {
-                trackHTML += `<img src="images/${i}.jpg" class="slide-item" alt="Slide ${i}" onerror="this.src='main.jpg'">`;
-            }
-            track.innerHTML = trackHTML;
-            updateSliderPosition();
-        }
-
-        function changeSlide(direction) {
-            currentSlideIndex += direction;
-            if (currentSlideIndex >= totalSlidesCount) currentSlideIndex = 0;
-            else if (currentSlideIndex < 0) currentSlideIndex = totalSlidesCount - 1;
-            updateSliderPosition();
-        }
-
-        function updateSliderPosition() {
-            const track = document.getElementById('main-slide-track');
-            if(track) track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
         }
     </script>
 </body>
