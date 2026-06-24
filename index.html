@@ -13,7 +13,7 @@
             --card-border: rgba(255, 255, 255, 0.12);
             --text-primary: #ffffff;
             --text-secondary: #e0dbe3;
-            --rose-gold: #e5b887; 
+            --rose-gold: #e5b887;
             --gold: #d4af37;
             --magenta-glow: #ff416c;
             --btn-gradient: linear-gradient(45deg, #ff758c, #ff7eb3);
@@ -46,9 +46,30 @@
             to { transform: translateY(110vh) rotate(360deg); }
         }
 
+        @keyframes glowBorder {
+            0%, 100% { box-shadow: 0 0 0 1px rgba(229,184,135,0.15), 0 0 18px rgba(255,126,179,0.15); }
+            50% { box-shadow: 0 0 0 1px rgba(255,255,255,0.22), 0 0 26px rgba(229,184,135,0.28); }
+        }
+
+        @keyframes rainbowShift {
+            0% { filter: hue-rotate(0deg) saturate(1.2); }
+            50% { filter: hue-rotate(180deg) saturate(1.6); }
+            100% { filter: hue-rotate(360deg) saturate(1.2); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-120%) skewX(-20deg); }
+            100% { transform: translateX(220%) skewX(-20deg); }
+        }
+
+        @keyframes neonGlow {
+            0%, 100% { text-shadow: 0 0 8px rgba(255,255,255,0.3), 0 0 18px rgba(255,126,179,0.25); }
+            50% { text-shadow: 0 0 12px rgba(255,255,255,0.55), 0 0 24px rgba(229,184,135,0.45); }
+        }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         
-        body, html { 
+        body, html {
             font-family: 'Poppins', sans-serif; min-height: 100%; width: 100%;
             background: var(--bg-gradient);
             background-size: 400% 400%;
@@ -56,29 +77,42 @@
             color: var(--text-primary);
         }
 
-        .screen { 
-            min-height: 100vh; display: none; flex-direction: column; 
-            align-items: center; justify-content: center; padding: 20px; text-align: center; 
+        .screen {
+            min-height: 100vh; display: none; flex-direction: column;
+            align-items: center; justify-content: center; padding: 20px; text-align: center;
         }
         .active { display: flex; animation: fadeIn 0.8s cubic-bezier(0.23, 1, 0.32, 1); }
 
         .glass-card {
-            background: var(--card-bg); 
+            background: var(--card-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            padding: 35px 20px; 
-            border-radius: 24px; 
+            padding: 35px 20px;
+            border-radius: 24px;
             border: 1px solid var(--card-border);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4); 
-            width: 100%; 
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            width: 100%;
             max-width: 420px;
             animation: premiumPulse 4s infinite ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%);
+            transform: translateX(-120%);
+            animation: shimmer 4s infinite;
+            pointer-events: none;
         }
 
-        .neon-text { 
+        .neon-text {
             font-family: 'Playfair Display', serif;
             font-weight: 900;
-            background: linear-gradient(45deg, #fff, var(--rose-gold), #ff7eb3);
+            background: linear-gradient(45deg, #fff, var(--rose-gold), #ff7eb3, #ffd700);
+            background-size: 300% 300%;
+            animation: rainbowShift 6s linear infinite;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 32px;
@@ -95,30 +129,41 @@
             text-shadow: 0 4px 12px rgba(0,0,0,0.3);
             margin: 5px 0 20px 0;
             letter-spacing: 1px;
+            animation: neonGlow 3s ease-in-out infinite;
         }
 
         .timer-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 25px 0; justify-content: center; }
-        .t-box { 
-            background: rgba(15, 12, 32, 0.6); 
-            border-radius: 12px; 
-            padding: 12px 4px; 
+        .t-box {
+            background: rgba(15, 12, 32, 0.6);
+            border-radius: 12px;
+            padding: 12px 4px;
             border: 1px solid var(--card-border);
+            position: relative;
+            overflow: hidden;
+        }
+        .t-box::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: translateX(-120%);
+            animation: shimmer 3.5s infinite;
         }
         .t-box span { display: block; font-size: 1.3rem; font-weight: 800; color: #fff; font-family: 'Poppins'; }
         .t-box label { font-size: 0.6rem; color: var(--rose-gold); font-weight: 600; text-transform: uppercase; display: block; }
         .sec-active { border: 1px solid var(--magenta-glow); box-shadow: 0 0 10px rgba(255, 65, 108, 0.3); }
 
-        .btn-p { 
+        .btn-p {
             background: var(--btn-gradient);
-            color: white; 
+            color: white;
             border: none;
-            padding: 14px 32px; 
-            border-radius: 50px; 
+            padding: 14px 32px;
+            border-radius: 50px;
             font-weight: 600;
             letter-spacing: 1px;
-            cursor: pointer; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            text-transform: uppercase; 
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
             font-size: 12px;
             box-shadow: 0 10px 20px rgba(255, 117, 140, 0.3);
             margin: 6px;
@@ -149,81 +194,60 @@
         .gift-wrapper:hover .gift-box-lid { transform: translateX(-50%) translateY(-30px) rotate(-12deg); }
         .gift-wrapper:hover .character-pop { transform: translateX(-50%) translateY(-45px) scale(1); opacity: 1; }
 
-        .special-frame-container { 
-            perspective: 1500px; 
-            margin: 20px auto; 
-            display: flex; 
-            justify-content: center; 
+        .media-frame {
+            position: relative;
+            padding: 12px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(229,184,135,0.16), rgba(255,126,179,0.10), rgba(255,255,255,0.06));
+            border: 1px solid rgba(255,255,255,0.14);
+            box-shadow: 0 18px 35px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
+            overflow: hidden;
+            animation: glowBorder 4s ease-in-out infinite;
+        }
+        .media-frame::before {
+            content: "";
+            position: absolute;
+            inset: 6px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.10);
+            pointer-events: none;
+        }
+        .media-frame::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+            pointer-events: none;
+        }
+        .media-frame img,
+        .media-frame video {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: 12px;
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+        }
+        .media-frame.tall img,
+        .media-frame.tall video { object-fit: contain; background: rgba(0,0,0,0.18); }
+
+        .special-frame-container {
+            perspective: 1500px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
             width: 100%;
             max-width: 100%;
             padding: 0 10px;
         }
-        
-        .magic-frame {
-            width: 100%;
-            max-width: 300px; 
-            height: 370px; 
-            background: rgba(255, 255, 255, 0.05); 
-            padding: 14px; 
-            border-radius: 20px;
-            border: 2px solid transparent;
-            background-image: linear-gradient(rgba(255,255,255,0.05), rgba(255,255,255,0.05)), linear-gradient(135deg, var(--rose-gold), rgba(255,255,255,0.1), #ff7eb3);
-            background-origin: border-box;
-            background-clip: content-box, border-box;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-            transform-style: preserve-3d;
-            transform: rotateX(8deg) rotateY(-6deg);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            position: relative;
-        }
-        
-        .slider-window {
-            width: 100%;
-            height: 84%;
-            position: relative;
-            overflow: hidden;
-            border-radius: 12px;
-            transform: translateZ(15px);
-        }
-        .slide-track {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        .slide-item {
-            min-width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
 
-        .slide-nav {
-            position: absolute;
-            top: 42%;
-            transform: translateY(-50%) translateZ(25px);
-            background: rgba(15, 12, 32, 0.85);
-            border: 1px solid var(--card-border);
-            color: #fff;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            z-index: 10;
-        }
-        .slide-nav.prev { left: -14px; }
-        .slide-nav.next { right: -14px; }
-        
         .isolated-reveal-frame {
             width: 100%;
-            max-width: 310px; 
-            height: auto; 
-            background: rgba(255, 255, 255, 0.05); 
-            padding: 16px; 
+            max-width: 310px;
+            height: auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 16px;
             border-radius: 20px;
             border: 2px solid transparent;
             background-image: linear-gradient(rgba(255,255,255,0.03), rgba(255,255,255,0.03)), linear-gradient(135deg, #ff7eb3, rgba(255,255,255,0.2), var(--rose-gold));
@@ -234,22 +258,23 @@
             transform: rotateX(8deg) rotateY(4deg);
             box-shadow: 0 25px 50px rgba(0,0,0,0.6);
         }
-        .isolated-reveal-frame video { 
-            width: 100%; 
-            height: auto; 
-            max-height: 280px; 
-            object-fit: contain; 
-            border-radius: 14px; 
-            display: block; 
+        .isolated-reveal-frame video {
+            width: 100%;
+            height: auto;
+            max-height: 280px;
+            object-fit: contain;
+            border-radius: 14px;
+            display: block;
         }
 
-        .frame-caption { 
-            font-family: 'Playfair Display', serif; 
-            font-style: italic; 
-            color: var(--rose-gold); 
-            font-size: 1rem; 
-            margin-top: 12px; 
+        .frame-caption {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--rose-gold);
+            font-size: 1rem;
+            margin-top: 12px;
             display: block;
+            animation: neonGlow 3s ease-in-out infinite;
         }
 
         .poojitha-grid {
@@ -285,24 +310,24 @@
         .cake-main { z-index: 1; clip-path: polygon(0% 0%, 50% 0%, 50% 100%, 0% 100%); display: none; }
         .cake-slice { z-index: 2; clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%); display: none; }
         .cake-whole { z-index: 3; }
-        
+
         .is-cut .cake-whole { display: none !important; }
         .is-cut .cake-main { display: block !important; transform: translateX(-15px) rotate(-4deg); }
         .is-cut .cake-slice { display: block !important; transform: translateX(15px) rotate(4deg); }
 
         .intro-vid-container { width: 100%; border-radius: 16px; overflow: hidden; margin-bottom: 20px; background: #000; }
-        .letter { 
-            background: rgba(255, 255, 255, 0.06); color: #f3eff5; padding: 25px 20px; border-radius: 20px; text-align: left; 
+        .letter {
+            background: rgba(255, 255, 255, 0.06); color: #f3eff5; padding: 25px 20px; border-radius: 20px; text-align: left;
             width: 100%; max-width: 360px; margin: 40px auto; line-height: 1.6; border: 1px solid var(--card-border); font-size: 0.9rem;
         }
         .letter h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--rose-gold); margin-bottom: 8px; }
         .chip { padding: 8px 16px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); margin: 4px; display: inline-block; font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.08); color: white; }
         #s-final { background: transparent; color: var(--text-secondary); display: none; padding: 40px 10px; text-align: center; }
-        .h-birthday { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 2.2rem; color: #fff; }
+        .h-birthday { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 2.2rem; color: #fff; animation: neonGlow 3s ease-in-out infinite; }
         .heart-particle { position: fixed; top: -10%; user-select: none; pointer-events: none; z-index: 9999; animation: fall linear forwards; }
-        
+
         .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 360px; margin: 25px auto; }
-        .video-card { 
+        .video-card {
             background: rgba(255,255,255,0.05); border-radius: 14px; overflow: hidden; position: relative; height: 150px; border: 1px solid var(--card-border);
         }
         .video-card video { width: 100%; height: 100%; object-fit: cover; }
@@ -313,11 +338,35 @@
         .image-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .image-label { position: absolute; bottom: 0; width: 100%; background: rgba(15, 12, 32, 0.88); color: var(--rose-gold); font-size: 0.65rem; padding: 6px; font-weight: 600; }
 
+        .color-bloom {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 20% 20%, rgba(255, 126, 179, 0.16), transparent 25%),
+                        radial-gradient(circle at 80% 30%, rgba(255, 215, 0, 0.14), transparent 22%),
+                        radial-gradient(circle at 50% 80%, rgba(94, 234, 212, 0.12), transparent 28%);
+            mix-blend-mode: screen;
+            animation: rainbowShift 10s linear infinite;
+            z-index: 0;
+        }
+
+        .sparkle-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            box-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
+            animation: fall linear forwards, rainbowShift 6s linear infinite;
+        }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
+    <div class="color-bloom"></div>
     <audio id="bg-music" loop><source src="audio.mpeg" type="audio/mpeg"></audio>
 
     <section id="s1" class="screen active">
@@ -336,7 +385,7 @@
 
     <section id="s2" class="screen">
         <div class="glass-card" id="m-ask">
-            <div class="intro-vid-container">
+            <div class="intro-vid-container media-frame tall">
                 <video id="intro-vid" muted loop playsinline style="width: 100%; display: block;">
                     <source src="Record_2026-05-13-09-25-15_f9ee0578fe1cc94de7482bd41accb329~3.mp4" type="video/mp4">
                 </video>
@@ -352,7 +401,7 @@
             <p style="font-weight: 600; margin-bottom: 15px; color: var(--text-secondary); font-size: 0.9rem;">Light up your world! 💡</p>
             <button class="btn-p" onclick="turnLights()">Turn On Lights</button>
             <button class="btn-p" onclick="addBuntings()">Add Sparkles</button>
-            
+
             <div id="envelope" style="display:none; margin-top:20px; cursor:pointer;" onclick="openGiftReveal()">
                 <div class="gift-wrapper">
                     <div class="gift-box-lid"><div class="gift-bow">🎀</div></div>
@@ -368,7 +417,7 @@
         <div class="glass-card" style="background: rgba(20, 15, 38, 0.75); border-color: var(--rose-gold);">
             <h2 class="neon-text" style="font-size: 22px; margin-bottom: 15px;">Your Special Gift 🎁</h2>
             <div class="special-frame-container">
-                <div class="isolated-reveal-frame">
+                <div class="isolated-reveal-frame media-frame tall">
                     <video id="gift-reveal-vid" playsinline>
                         <source src="VID_20260513_151013.mp4" type="video/mp4">
                     </video>
@@ -378,32 +427,14 @@
             <button class="btn-p" style="margin-top: 15px;" onclick="goToCelebration()">Go to Celebration! 🎉</button>
         </div>
     </section>
-    
+
     <section id="s-final">
         <h1 class="h-birthday">Happy Birthday, Poojitha</h1>
         <p style="color:var(--rose-gold); letter-spacing:4px; font-size: 0.75rem; font-weight:600; margin-top: 8px;">✨ JULY 3, 2026 ✨</p>
 
-        <div class="pooji-main-frame" style="
-            max-width: 400px; 
-            margin: 20px auto; 
-            padding: 10px; 
-            border: 3px solid var(--rose-gold); 
-            border-radius: 20px; 
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        ">
-            <img src="IMG-20260623-WA0027.jpg" alt="Poojitha" style="
-                width: 100%; 
-                border-radius: 12px; 
-                display: block;
-            ">
-            <p class="frame-caption" style="
-                text-align: center; 
-                margin-top: 15px; 
-                font-size: 1.2rem; 
-                color: white;
-                font-family: 'Segoe UI', sans-serif;
-            ">Our Brightest Star ✨</p>
+        <div class="pooji-main-frame media-frame" style="max-width: 400px; margin: 20px auto; border: 3px solid var(--rose-gold); border-radius: 20px; background: rgba(255, 255, 255, 0.05);">
+            <img src="IMG-20260623-WA0027.jpg" alt="Poojitha" style="width: 100%; border-radius: 12px; display: block;">
+            <p class="frame-caption" style="text-align: center; margin-top: 15px; font-size: 1.2rem; color: white; font-family: 'Segoe UI', sans-serif;">Our Brightest Star ✨</p>
         </div>
 
         <div class="poojitha-grid">
@@ -436,42 +467,43 @@
 
         <div id="video-section" style="display:none; margin-top:35px;">
             <p style="background: rgba(229, 184, 135, 0.15); border: 1px solid rgba(229, 184, 135, 0.3); color: var(--rose-gold); display: inline-block; padding: 6px 18px; border-radius: 30px; font-size: 0.8rem; font-weight:600; margin-bottom: 15px;">Magical Memories 🎬</p>
+
             <div class="image-grid">
-                <div class="image-card"><img src="image1.jpg" alt="Best Friendship Memory 1"><div class="image-label">Best Friendship 💜</div></div>
-                <div class="image-card"><img src="image2.jpg" alt="Best Friendship Memory 2"><div class="image-label">Forever Friends ✨</div></div>
-                <div class="image-card"><img src="image3.jpg" alt="Best Friendship Memory 3"><div class="image-label">Lovely Moments 🌸</div></div>
-                <div class="image-card"><img src="image4.jpg" alt="Best Friendship Memory 4"><div class="image-label">Happy Vibes 🌟</div></div>
-                <div class="image-card"><img src="image5.jpg" alt="Best Friendship Memory 5"><div class="image-label">Sweet Bond 💖</div></div>
-                <div class="image-card"><img src="image6.jpg" alt="Best Friendship Memory 6"><div class="image-label">Cherished Time 🎀</div></div>
-                <div class="image-card"><img src="image7.jpg" alt="Best Friendship Memory 7"><div class="image-label">Unforgettable ✨</div></div>
-                <div class="image-card"><img src="image8.jpg" alt="Best Friendship Memory 8"><div class="image-label">Golden Memories 🌹</div></div>
-                <div class="image-card"><img src="image9.jpg" alt="Best Friendship Memory 9"><div class="image-label">Besties 💜</div></div>
-                <div class="image-card"><img src="image10.jpg" alt="Best Friendship Memory 10"><div class="image-label">Together Always 🌼</div></div>
-                <div class="image-card"><img src="image11.jpg" alt="Best Friendship Memory 11"><div class="image-label">Pure Joy 💫</div></div>
-                <div class="image-card"><img src="image12.jpg" alt="Best Friendship Memory 12"><div class="image-label">Magical Bond ✨</div></div>
-                <div class="image-card"><img src="image13.jpg" alt="Best Friendship Memory 13"><div class="image-label">Warm Hearts 🤍</div></div>
-                <div class="image-card"><img src="image14.jpg" alt="Best Friendship Memory 14"><div class="image-label">Smile Always 😊</div></div>
-                <div class="image-card"><img src="image15.jpg" alt="Best Friendship Memory 15"><div class="image-label">Sweet Smile 🌸</div></div>
-                <div class="image-card"><img src="image16.jpg" alt="Best Friendship Memory 16"><div class="image-label">Our Story ✨</div></div>
-                <div class="image-card"><img src="image17.jpg" alt="Best Friendship Memory 17"><div class="image-label">Precious Bond 💎</div></div>
-                <div class="image-card"><img src="image18.jpg" alt="Best Friendship Memory 18"><div class="image-label">Heartfelt 🌷</div></div>
-                <div class="image-card"><img src="image19.jpg" alt="Best Friendship Memory 19"><div class="image-label">Fun Times 🎉</div></div>
-                <div class="image-card"><img src="image20.jpg" alt="Best Friendship Memory 20"><div class="image-label">Loyal Friends 💜</div></div>
-                <div class="image-card"><img src="image21.jpg" alt="Best Friendship Memory 21"><div class="image-label">Lovely Soul ✨</div></div>
-                <div class="image-card"><img src="image22.jpg" alt="Best Friendship Memory 22"><div class="image-label">Forever Bond 🌸</div></div>
-                <div class="image-card"><img src="image23.jpg" alt="Best Friendship Memory 23"><div class="image-label">Happy Days 🌟</div></div>
-                <div class="image-card"><img src="image24.jpg" alt="Best Friendship Memory 24"><div class="image-label">Treasure 💖</div></div>
-                <div class="image-card"><img src="image25.jpg" alt="Best Friendship Memory 25"><div class="image-label">Special One 🎀</div></div>
-                <div class="image-card"><img src="image26.jpg" alt="Best Friendship Memory 26"><div class="image-label">Amazing Friend ✨</div></div>
-                <div class="image-card"><img src="image27.jpg" alt="Best Friendship Memory 27"><div class="image-label">True Bond 🤍</div></div>
-                <div class="image-card"><img src="image28.jpg" alt="Best Friendship Memory 28"><div class="image-label">Smiles 🌷</div></div>
-                <div class="image-card"><img src="image29.jpg" alt="Best Friendship Memory 29"><div class="image-label">Good Times 🌼</div></div>
-                <div class="image-card"><img src="image30.jpg" alt="Best Friendship Memory 30"><div class="image-label">Magical Days ✨</div></div>
-                <div class="image-card"><img src="image31.jpg" alt="Best Friendship Memory 31"><div class="image-label">Cute Moments 💜</div></div>
-                <div class="image-card"><img src="image32.jpg" alt="Best Friendship Memory 32"><div class="image-label">Best Duo 🎉</div></div>
-                <div class="image-card"><img src="image33.jpg" alt="Best Friendship Memory 33"><div class="image-label">Always There 🌟</div></div>
-                <div class="image-card"><img src="image34.jpg" alt="Best Friendship Memory 34"><div class="image-label">Magical Friendship ✨</div></div>
-                <div class="image-card"><img src="image35.jpg" alt="Best Friendship Memory 35"><div class="image-label">Best Friendship Forever 💖</div></div>
+                <div class="image-card media-frame"><img src="image1.jpg" alt="Best Friendship Memory 1"><div class="image-label">Best Friendship 💜</div></div>
+                <div class="image-card media-frame"><img src="image2.jpg" alt="Best Friendship Memory 2"><div class="image-label">Forever Friends ✨</div></div>
+                <div class="image-card media-frame"><img src="image3.jpg" alt="Best Friendship Memory 3"><div class="image-label">Lovely Moments 🌸</div></div>
+                <div class="image-card media-frame"><img src="image4.jpg" alt="Best Friendship Memory 4"><div class="image-label">Happy Vibes 🌟</div></div>
+                <div class="image-card media-frame"><img src="image5.jpg" alt="Best Friendship Memory 5"><div class="image-label">Sweet Bond 💖</div></div>
+                <div class="image-card media-frame"><img src="image6.jpg" alt="Best Friendship Memory 6"><div class="image-label">Cherished Time 🎀</div></div>
+                <div class="image-card media-frame"><img src="image7.jpg" alt="Best Friendship Memory 7"><div class="image-label">Unforgettable ✨</div></div>
+                <div class="image-card media-frame"><img src="image8.jpg" alt="Best Friendship Memory 8"><div class="image-label">Golden Memories 🌹</div></div>
+                <div class="image-card media-frame"><img src="image9.jpg" alt="Best Friendship Memory 9"><div class="image-label">Besties 💜</div></div>
+                <div class="image-card media-frame"><img src="image10.jpg" alt="Best Friendship Memory 10"><div class="image-label">Together Always 🌼</div></div>
+                <div class="image-card media-frame"><img src="image11.jpg" alt="Best Friendship Memory 11"><div class="image-label">Pure Joy 💫</div></div>
+                <div class="image-card media-frame"><img src="image12.jpg" alt="Best Friendship Memory 12"><div class="image-label">Magical Bond ✨</div></div>
+                <div class="image-card media-frame"><img src="image13.jpg" alt="Best Friendship Memory 13"><div class="image-label">Warm Hearts 🤍</div></div>
+                <div class="image-card media-frame"><img src="image14.jpg" alt="Best Friendship Memory 14"><div class="image-label">Smile Always 😊</div></div>
+                <div class="image-card media-frame"><img src="image15.jpg" alt="Best Friendship Memory 15"><div class="image-label">Sweet Smile 🌸</div></div>
+                <div class="image-card media-frame"><img src="image16.jpg" alt="Best Friendship Memory 16"><div class="image-label">Our Story ✨</div></div>
+                <div class="image-card media-frame"><img src="image17.jpg" alt="Best Friendship Memory 17"><div class="image-label">Precious Bond 💎</div></div>
+                <div class="image-card media-frame"><img src="image18.jpg" alt="Best Friendship Memory 18"><div class="image-label">Heartfelt 🌷</div></div>
+                <div class="image-card media-frame"><img src="image19.jpg" alt="Best Friendship Memory 19"><div class="image-label">Fun Times 🎉</div></div>
+                <div class="image-card media-frame"><img src="image20.jpg" alt="Best Friendship Memory 20"><div class="image-label">Loyal Friends 💜</div></div>
+                <div class="image-card media-frame"><img src="image21.jpg" alt="Best Friendship Memory 21"><div class="image-label">Lovely Soul ✨</div></div>
+                <div class="image-card media-frame"><img src="image22.jpg" alt="Best Friendship Memory 22"><div class="image-label">Forever Bond 🌸</div></div>
+                <div class="image-card media-frame"><img src="image23.jpg" alt="Best Friendship Memory 23"><div class="image-label">Happy Days 🌟</div></div>
+                <div class="image-card media-frame"><img src="image24.jpg" alt="Best Friendship Memory 24"><div class="image-label">Treasure 💖</div></div>
+                <div class="image-card media-frame"><img src="image25.jpg" alt="Best Friendship Memory 25"><div class="image-label">Special One 🎀</div></div>
+                <div class="image-card media-frame"><img src="image26.jpg" alt="Best Friendship Memory 26"><div class="image-label">Amazing Friend ✨</div></div>
+                <div class="image-card media-frame"><img src="image27.jpg" alt="Best Friendship Memory 27"><div class="image-label">True Bond 🤍</div></div>
+                <div class="image-card media-frame"><img src="image28.jpg" alt="Best Friendship Memory 28"><div class="image-label">Smiles 🌷</div></div>
+                <div class="image-card media-frame"><img src="image29.jpg" alt="Best Friendship Memory 29"><div class="image-label">Good Times 🌼</div></div>
+                <div class="image-card media-frame"><img src="image30.jpg" alt="Best Friendship Memory 30"><div class="image-label">Magical Days ✨</div></div>
+                <div class="image-card media-frame"><img src="image31.jpg" alt="Best Friendship Memory 31"><div class="image-label">Cute Moments 💜</div></div>
+                <div class="image-card media-frame"><img src="image32.jpg" alt="Best Friendship Memory 32"><div class="image-label">Best Duo 🎉</div></div>
+                <div class="image-card media-frame"><img src="image33.jpg" alt="Best Friendship Memory 33"><div class="image-label">Always There 🌟</div></div>
+                <div class="image-card media-frame"><img src="image34.jpg" alt="Best Friendship Memory 34"><div class="image-label">Magical Friendship ✨</div></div>
+                <div class="image-card media-frame"><img src="image35.jpg" alt="Best Friendship Memory 35"><div class="image-label">Best Friendship Forever 💖</div></div>
             </div>
         </div>
 
@@ -493,7 +525,7 @@
         const flowersArr = ['🌸', '✨', '🌼', '💜', '🌹', '🌟'];
         const lightColors = ['#e5b887', '#ff7eb3', '#ffd700', '#ffffff', '#ff416c'];
         const fLightsContainer = document.getElementById('f-lights');
-        
+
         let lightsHTML = '';
         for(let i=0; i<12; i++) {
             const flower = flowersArr[Math.floor(Math.random() * flowersArr.length)];
@@ -517,6 +549,21 @@
             }, 400);
         }
 
+        function startSparkles() {
+            const colors = ['#ff7eb3', '#ffd700', '#00e5ff', '#7cff6b', '#ff416c', '#ffffff'];
+            setInterval(() => {
+                const s = document.createElement('div');
+                s.className = 'sparkle-dot';
+                s.style.left = Math.random() * 100 + 'vw';
+                s.style.top = '-10px';
+                s.style.background = colors[Math.floor(Math.random() * colors.length)];
+                s.style.color = s.style.background;
+                s.style.animationDuration = Math.random() * 3 + 2 + 's';
+                document.body.appendChild(s);
+                setTimeout(() => s.remove(), 5000);
+            }, 180);
+        }
+
         const targetDate = new Date("July 3, 2026 00:00:00").getTime();
         setInterval(() => {
             const distance = targetDate - new Date().getTime();
@@ -532,6 +579,7 @@
             const introVid = document.getElementById('intro-vid');
             if(introVid) introVid.play().catch(() => {});
             document.getElementById('bg-music').play().catch(() => {});
+            startSparkles();
         }
 
         function confirmYes() {
@@ -539,8 +587,8 @@
             document.getElementById('m-deco').style.display = 'block';
         }
 
-        function turnLights() { 
-            document.getElementById('f-lights').style.display = 'flex'; 
+        function turnLights() {
+            document.getElementById('f-lights').style.display = 'flex';
             confetti({ particleCount: 40, colors: ['#ff7eb3', '#ffd700'] });
         }
 
@@ -559,7 +607,7 @@
         function goToCelebration() {
             document.getElementById('s-special-reveal').classList.remove('active');
             document.getElementById('s-final').style.display = "block";
-            confetti({ particleCount: 150, spread: 100 });
+            confetti({ particleCount: 150, spread: 100, colors: ['#ff7eb3', '#ffd700', '#00e5ff', '#7cff6b'] });
             startHearts();
         }
 
@@ -567,7 +615,7 @@
             document.getElementById('ribbon-container').classList.add('ribbon-cut');
             document.getElementById('ribbon-msg').innerText = "Celebration Unlocked! 🎊";
             document.getElementById('cake-section').style.display = 'block';
-            confetti({ particleCount: 100, colors: ['#ffd700', '#ff416c', '#FFFFFF'] });
+            confetti({ particleCount: 100, colors: ['#ffd700', '#ff416c', '#FFFFFF', '#00e5ff'] });
         }
 
         function cutCake() {
@@ -576,7 +624,7 @@
             cakeWrapper.classList.add('is-cut');
             document.getElementById('cake-msg').innerText = "Yum! Perfect slice for POOJI! 🍰";
             document.getElementById('video-section').style.display = 'block';
-            confetti({ particleCount: 80, spread: 100 });
+            confetti({ particleCount: 80, spread: 100, colors: ['#ff7eb3', '#ffd700', '#00e5ff', '#7cff6b'] });
         }
     </script>
 </body>
