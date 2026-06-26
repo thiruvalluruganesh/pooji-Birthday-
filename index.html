@@ -327,6 +327,40 @@
         }
         .btn-p:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 15px 25px rgba(255, 117, 140, 0.5); }
 
+        .locked-ui {
+            pointer-events: none;
+            opacity: 0.92;
+            filter: grayscale(0.15) brightness(0.9);
+        }
+
+        .hidden-until-finish {
+            display: none !important;
+        }
+
+        .countdown-done .hidden-until-finish {
+            display: inline-block !important;
+        }
+
+        .countdown-done #timer-lock-overlay {
+            display: flex !important;
+        }
+
+        #timer-lock-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9997;
+            align-items: center;
+            justify-content: center;
+            background: rgba(8, 6, 18, 0.62);
+            backdrop-filter: blur(3px);
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 20px;
+        }
+
         .gift-wrapper { position: relative; width: 130px; height: 130px; margin: 20px auto; cursor: pointer; animation: float 3s infinite ease-in-out; }
         .gift-box-base {
             position: absolute; bottom: 0; width: 90px; height: 70px;
@@ -361,6 +395,7 @@
             overflow: hidden;
             animation: glowBorder 4s ease-in-out infinite;
         }
+
         .media-frame::before {
             content: "";
             position: absolute;
@@ -718,12 +753,21 @@
             animation: fall linear forwards, rainbowShift 6s linear infinite;
         }
 
+        #manual-enter-btn {
+            display: none;
+        }
+
+        .countdown-done #manual-enter-btn {
+            display: inline-block;
+        }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div class="color-bloom"></div>
+    <div id="timer-lock-overlay">Countdown finished. Interface unlocked.</div>
     <audio id="bg-music" loop><source src="AUD-20260626-WA0001.mp3" type="audio/mpeg"></audio>
 
     <section id="s1" class="screen active">
@@ -736,7 +780,7 @@
                 <div class="t-box"><span id="mins">00</span><label>Mins</label></div>
                 <div class="t-box sec-active"><span id="secs">00</span><label>Secs</label></div>
             </div>
-            <button class="btn-p" onclick="openModal()">Click for Surprise ✨</button>
+            <button id="manual-enter-btn" class="btn-p" onclick="openModal()">Click for Surprise ✨</button>
         </div>
     </section>
 
@@ -918,6 +962,9 @@
         const flowersArr = ['🌸', '✨', '🌼', '💜', '🌹', '🌟'];
         const lightColors = ['#e5b887', '#ff7eb3', '#ffd700', '#ffffff', '#ff416c'];
         const fLightsContainer = document.getElementById('f-lights');
+        const targetDate = new Date("July 3, 2026 00:00:00").getTime();
+        const lockTime = targetDate;
+        let countdownDone = false;
 
         let lightsHTML = '';
         for(let i=0; i<12; i++) {
@@ -957,16 +1004,32 @@
             }, 180);
         }
 
-        const targetDate = new Date("July 3, 2026 00:00:00").getTime();
-        setInterval(() => {
-            const distance = targetDate - new Date().getTime();
+        function applyCountdownLock() {
+            const distance = lockTime - new Date().getTime();
+            if (distance <= 0) {
+                if (!countdownDone) {
+                    countdownDone = true;
+                    document.body.classList.add('countdown-done');
+                    document.body.classList.add('locked-ui');
+                    document.getElementById('days').innerText = '00';
+                    document.getElementById('hours').innerText = '00';
+                    document.getElementById('mins').innerText = '00';
+                    document.getElementById('secs').innerText = '00';
+                }
+                return;
+            }
+
             document.getElementById('days').innerText = Math.max(0, Math.floor(distance / 86400000)).toString().padStart(2, '0');
             document.getElementById('hours').innerText = Math.max(0, Math.floor((distance % 86400000) / 3600000)).toString().padStart(2, '0');
             document.getElementById('mins').innerText = Math.max(0, Math.floor((distance % 3600000) / 60000)).toString().padStart(2, '0');
             document.getElementById('secs').innerText = Math.max(0, Math.floor((distance % 60000) / 1000)).toString().padStart(2, '0');
-        }, 1000);
+        }
+
+        setInterval(applyCountdownLock, 1000);
+        applyCountdownLock();
 
         function openModal() {
+            if (!countdownDone) return;
             document.getElementById('s1').classList.remove('active');
             document.getElementById('s2').classList.add('active');
             const introVid = document.getElementById('intro-vid');
@@ -1024,4 +1087,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
