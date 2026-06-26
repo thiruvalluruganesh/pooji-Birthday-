@@ -78,6 +78,16 @@
             50% { transform: translateY(-3px); }
         }
 
+        @keyframes timerGlow {
+            0%, 100% { box-shadow: 0 10px 25px rgba(255, 117, 140, 0.14), inset 0 1px 0 rgba(255,255,255,0.08); }
+            50% { box-shadow: 0 16px 35px rgba(255, 126, 179, 0.24), inset 0 1px 0 rgba(255,255,255,0.14); }
+        }
+
+        @keyframes timerPop {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-4px) scale(1.03); }
+        }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         
         body, html {
@@ -143,26 +153,68 @@
             animation: neonGlow 3s ease-in-out infinite;
         }
 
-        .timer-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 25px 0; justify-content: center; }
+        .timer-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 24px 0;
+            justify-content: center;
+            width: 100%;
+        }
         .t-box {
-            background: rgba(15, 12, 32, 0.6);
-            border-radius: 12px;
-            padding: 12px 4px;
-            border: 1px solid var(--card-border);
+            background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(15, 12, 32, 0.72));
+            border-radius: 18px;
+            padding: 14px 6px 12px;
+            border: 1px solid rgba(255,255,255,0.14);
             position: relative;
             overflow: hidden;
+            min-height: 82px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: timerGlow 3.6s ease-in-out infinite, timerPop 4s ease-in-out infinite;
+            transform: translateZ(0);
+        }
+        .t-box::before {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.06);
+            pointer-events: none;
         }
         .t-box::after {
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            background: linear-gradient(135deg, transparent 20%, rgba(255,255,255,0.16) 50%, transparent 80%);
             transform: translateX(-120%);
-            animation: shimmer 3.5s infinite;
+            animation: shimmer 3.2s infinite;
+            pointer-events: none;
         }
-        .t-box span { display: block; font-size: 1.3rem; font-weight: 800; color: #fff; font-family: 'Poppins'; }
-        .t-box label { font-size: 0.6rem; color: var(--rose-gold); font-weight: 600; text-transform: uppercase; display: block; }
-        .sec-active { border: 1px solid var(--magenta-glow); box-shadow: 0 0 10px rgba(255, 65, 108, 0.3); }
+        .t-box span {
+            display: block;
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'Poppins';
+            line-height: 1;
+            text-shadow: 0 0 12px rgba(255,255,255,0.18);
+        }
+        .t-box label {
+            font-size: 0.62rem;
+            color: #ffd6e4;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            display: block;
+            margin-top: 6px;
+        }
+        .sec-active {
+            border: 1px solid rgba(255, 65, 108, 0.9);
+            box-shadow: 0 0 14px rgba(255, 65, 108, 0.35), 0 0 24px rgba(255, 126, 179, 0.18);
+        }
 
         .btn-p {
             background: var(--btn-gradient);
