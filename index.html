@@ -88,58 +88,45 @@
             50% { transform: translateY(-4px) scale(1.03); }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes friendshipPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideInLeft {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.7) rotate(-4deg); }
-            70% { opacity: 1; transform: scale(1.05) rotate(2deg); }
-            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        @keyframes slideInRight {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        @keyframes cardWave {
-            0% { transform: translateY(0px) rotateX(0deg); }
-            50% { transform: translateY(-6px) rotateX(2deg); }
-            100% { transform: translateY(0px) rotateX(0deg); }
+        @keyframes beatPulse {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
         }
 
-        @keyframes glowPulse {
-            0%, 100% { filter: drop-shadow(0 0 6px rgba(255, 126, 179, 0.25)); }
-            50% { filter: drop-shadow(0 0 16px rgba(255, 215, 0, 0.4)); }
+        @keyframes spinRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        @keyframes zoomFloat {
-            0%, 100% { transform: scale(1) translateY(0); }
-            50% { transform: scale(1.03) translateY(-4px); }
+        @keyframes jump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
 
-        @keyframes spinGlow {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.04); }
-            100% { transform: rotate(360deg) scale(1); }
+        @keyframes magicSparkle {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
         }
 
-        @keyframes frameShine {
-            0% { transform: translateX(-130%) skewX(-18deg); }
-            100% { transform: translateX(230%) skewX(-18deg); }
-        }
-
-        @keyframes cornerPulse {
-            0%, 100% { opacity: 0.45; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.12); }
-        }
-
-        @keyframes frameHoverLift {
-            0% { transform: translateY(0) scale(1); }
-            100% { transform: translateY(-6px) scale(1.01); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         
@@ -152,37 +139,9 @@
             overflow-x: hidden;
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(255, 126, 179, 0.12), transparent 22%),
-                radial-gradient(circle at 80% 30%, rgba(255, 215, 0, 0.10), transparent 20%),
-                radial-gradient(circle at 50% 80%, rgba(0, 229, 255, 0.08), transparent 24%);
-            animation: rainbowShift 12s linear infinite;
-            z-index: 0;
-        }
-
-        body::after {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 36px 36px;
-            opacity: 0.12;
-            z-index: 0;
-        }
-
         .screen {
             min-height: 100vh; display: none; flex-direction: column;
             align-items: center; justify-content: center; padding: 20px; text-align: center;
-            position: relative;
-            z-index: 1;
         }
         .active { display: flex; animation: fadeIn 0.8s cubic-bezier(0.23, 1, 0.32, 1); }
 
@@ -196,10 +155,9 @@
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
             width: 100%;
             max-width: 420px;
-            animation: premiumPulse 4s infinite ease-in-out, cardWave 6s ease-in-out infinite;
+            animation: premiumPulse 4s infinite ease-in-out;
             position: relative;
             overflow: hidden;
-            transform-style: preserve-3d;
         }
         .glass-card::before {
             content: "";
@@ -216,7 +174,7 @@
             font-weight: 900;
             background: linear-gradient(45deg, #fff, var(--rose-gold), #ff7eb3, #ffd700);
             background-size: 300% 300%;
-            animation: rainbowShift 6s linear infinite, zoomFloat 4s ease-in-out infinite;
+            animation: rainbowShift 6s linear infinite;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 32px;
@@ -259,21 +217,22 @@
             animation: timerGlow 3.6s ease-in-out infinite, timerPop 4s ease-in-out infinite;
             transform: translateZ(0);
         }
-        .t-box::before, .t-box::after {
+        .t-box::before {
             content: "";
             position: absolute;
-            pointer-events: none;
-        }
-        .t-box::before {
             inset: 1px;
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.06);
+            pointer-events: none;
         }
         .t-box::after {
+            content: "";
+            position: absolute;
             inset: 0;
             background: linear-gradient(135deg, transparent 20%, rgba(255,255,255,0.16) 50%, transparent 80%);
             transform: translateX(-120%);
             animation: shimmer 3.2s infinite;
+            pointer-events: none;
         }
         .t-box span {
             display: block;
@@ -315,50 +274,20 @@
             position: relative;
             overflow: hidden;
         }
+        .btn-p:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(255, 117, 140, 0.5); }
         .btn-p::after {
             content: "";
             position: absolute;
-            inset: 0;
-            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.28), transparent);
-            transform: translateX(-120%);
+            top: -50%;
+            left: -60%;
+            width: 20px;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(25deg);
+            transition: all 0.5s;
         }
         .btn-p:hover::after {
-            animation: shimmer 0.9s ease;
-        }
-        .btn-p:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 15px 25px rgba(255, 117, 140, 0.5); }
-
-        .locked-ui {
-            pointer-events: none;
-            opacity: 0.92;
-            filter: grayscale(0.15) brightness(0.9);
-        }
-
-        .hidden-until-finish {
-            display: none !important;
-        }
-
-        .countdown-done .hidden-until-finish {
-            display: inline-block !important;
-        }
-
-        .countdown-done #timer-lock-overlay {
-            display: flex !important;
-        }
-
-        #timer-lock-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 9997;
-            align-items: center;
-            justify-content: center;
-            background: rgba(8, 6, 18, 0.62);
-            backdrop-filter: blur(3px);
-            color: white;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            text-align: center;
-            padding: 20px;
+            left: 120%;
         }
 
         .gift-wrapper { position: relative; width: 130px; height: 130px; margin: 20px auto; cursor: pointer; animation: float 3s infinite ease-in-out; }
@@ -375,7 +304,7 @@
             transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .gift-bow { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 28px; animation: spinGlow 5s ease-in-out infinite; }
+        .gift-bow { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 28px; }
         .character-pop {
             position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%) scale(0.5);
             width: 65px; height: 65px; background: white; border-radius: 50%;
@@ -395,7 +324,6 @@
             overflow: hidden;
             animation: glowBorder 4s ease-in-out infinite;
         }
-
         .media-frame::before {
             content: "";
             position: absolute;
@@ -426,90 +354,6 @@
         .media-frame.tall img,
         .media-frame.tall video { object-fit: contain; background: rgba(0,0,0,0.18); }
 
-        .frame-style-1 { border-radius: 22px; background: linear-gradient(145deg, rgba(255,255,255,0.10), rgba(229,184,135,0.12)); }
-        .frame-style-2 { border-radius: 26px 10px 26px 10px; border: 1px solid rgba(255,255,255,0.18); }
-        .frame-style-3 { border-radius: 18px; box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 18px 38px rgba(0,0,0,0.4); }
-        .frame-style-4 { transform: perspective(1200px) rotateX(2deg); }
-
-        .media-frame.frame-style-1,
-        .media-frame.frame-style-2,
-        .media-frame.frame-style-3,
-        .media-frame.frame-style-4 {
-            animation: glowBorder 4s ease-in-out infinite, frameHoverLift 5s ease-in-out infinite alternate;
-        }
-
-        .media-frame.frame-style-1::before,
-        .media-frame.frame-style-2::before,
-        .media-frame.frame-style-3::before,
-        .media-frame.frame-style-4::before {
-            border: 1px solid rgba(255,255,255,0.14);
-        }
-
-        .media-frame.frame-style-1::after,
-        .media-frame.frame-style-2::after,
-        .media-frame.frame-style-3::after,
-        .media-frame.frame-style-4::after {
-            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.10) 50%, transparent 100%);
-        }
-
-        .media-frame .frame-corners {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .media-frame .frame-corners::before,
-        .media-frame .frame-corners::after {
-            content: "";
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            border: 2px solid var(--rose-gold);
-            opacity: 0.7;
-        }
-
-        .media-frame .frame-corners::before {
-            left: 8px;
-            top: 8px;
-            border-right: 0;
-            border-bottom: 0;
-            border-radius: 8px 0 0 0;
-        }
-
-        .media-frame .frame-corners::after {
-            right: 8px;
-            bottom: 8px;
-            border-left: 0;
-            border-top: 0;
-            border-radius: 0 0 8px 0;
-        }
-
-        .media-frame .frame-line {
-            position: absolute;
-            inset: 10px;
-            border-radius: 14px;
-            border: 1px dashed rgba(255,255,255,0.10);
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .media-frame .frame-spark {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--gold);
-            box-shadow: 0 0 10px var(--gold);
-            z-index: 3;
-            animation: cornerPulse 2s ease-in-out infinite;
-        }
-
-        .media-frame .spark-tl { top: 6px; left: 6px; }
-        .media-frame .spark-tr { top: 6px; right: 6px; animation-delay: .4s; }
-        .media-frame .spark-bl { bottom: 6px; left: 6px; animation-delay: .8s; }
-        .media-frame .spark-br { bottom: 6px; right: 6px; animation-delay: 1.2s; }
-
         .special-frame-container {
             perspective: 1500px;
             margin: 20px auto;
@@ -535,26 +379,6 @@
             transform-style: preserve-3d;
             transform: rotateX(8deg) rotateY(4deg);
             box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-            animation: popIn 0.9s ease both;
-            position: relative;
-            overflow: hidden;
-        }
-        .isolated-reveal-frame::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, transparent 15%, rgba(255,255,255,0.12) 50%, transparent 85%);
-            transform: translateX(-120%);
-            animation: frameShine 4s infinite;
-            pointer-events: none;
-        }
-        .isolated-reveal-frame::after {
-            content: "";
-            position: absolute;
-            inset: 10px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.12);
-            pointer-events: none;
         }
         .isolated-reveal-frame video {
             width: 100%;
@@ -586,11 +410,12 @@
         .grid-item {
             background: rgba(15, 12, 32, 0.5); padding: 12px; border-radius: 12px; text-align: center;
             border-bottom: 3px solid var(--rose-gold);
-            animation: popIn 0.8s ease both;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideInLeft 0.6s ease-out forwards;
         }
-        .grid-item:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 12px 24px rgba(255, 126, 179, 0.18); }
-        .grid-letter { display: block; font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.8rem; color: #fff; animation: glowPulse 3s ease-in-out infinite; }
+        .grid-item:nth-child(even) {
+            animation: slideInRight 0.6s ease-out forwards;
+        }
+        .grid-letter { display: block; font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.8rem; color: #fff; }
         .grid-desc { font-size: 0.6rem; color: var(--rose-gold); text-transform: uppercase; margin-top: 2px; }
 
         #ribbon-container { position: relative; width: 100%; height: 80px; margin: 25px 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
@@ -622,12 +447,14 @@
         .letter {
             background: rgba(255, 255, 255, 0.06); color: #f3eff5; padding: 25px 20px; border-radius: 20px; text-align: left;
             width: 100%; max-width: 360px; margin: 40px auto; line-height: 1.6; border: 1px solid var(--card-border); font-size: 0.9rem;
-            animation: fadeUp 1s ease both;
+            animation: slideInLeft 0.8s ease-out;
         }
         .letter h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--rose-gold); margin-bottom: 8px; }
-        .chip { padding: 8px 16px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); margin: 4px; display: inline-block; font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.08); color: white; animation: popIn 0.6s ease both; }
+        .chip { padding: 8px 16px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); margin: 4px; display: inline-block; font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.08); color: white; animation: friendshipPulse 2s ease-in-out infinite; }
+        .chip:nth-child(2) { animation-delay: 0.2s; }
+        .chip:nth-child(3) { animation-delay: 0.4s; }
         #s-final { background: transparent; color: var(--text-secondary); display: none; padding: 40px 10px; text-align: center; }
-        .h-birthday { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 2.2rem; color: #fff; animation: neonGlow 3s ease-in-out infinite, zoomFloat 4s ease-in-out infinite; }
+        .h-birthday { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 2.2rem; color: #fff; animation: neonGlow 3s ease-in-out infinite, beatPulse 1.5s ease-in-out infinite; }
         .heart-particle { position: fixed; top: -10%; user-select: none; pointer-events: none; z-index: 9999; animation: fall linear forwards; }
 
         .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 360px; margin: 25px auto; }
@@ -753,22 +580,89 @@
             animation: fall linear forwards, rainbowShift 6s linear infinite;
         }
 
-        #manual-enter-btn {
+        .friendship-note {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.85rem;
+            color: var(--rose-gold);
+            animation: slideInRight 0.6s ease-out;
+            z-index: 100;
             display: none;
         }
 
-        .countdown-done #manual-enter-btn {
-            display: inline-block;
+        .magic-star {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 9997;
+            animation: magicSparkle 1s forwards;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .animated-frame {
+            position: relative;
+            padding: 20px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, rgba(255, 126, 179, 0.15), rgba(229, 184, 135, 0.1));
+            border: 2px solid transparent;
+            background-image: linear-gradient(rgba(15, 12, 32, 0.9), rgba(15, 12, 32, 0.9)), 
+                              linear-gradient(135deg, #ff7eb3, #ffd700, #00e5ff);
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            box-shadow: 0 0 25px rgba(255, 126, 179, 0.3);
+            animation: rainbowShift 8s linear infinite, float 4s ease-in-out infinite;
+            margin: 25px 0;
+        }
+
+        .glow-text {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 1.4rem;
+            background: linear-gradient(45deg, #ff7eb3, #ffd700, #00e5ff);
+            background-size: 300% 300%;
+            animation: rainbowShift 4s linear infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 10px 0;
+        }
+
+        .pulse-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--rose-gold);
+            border-radius: inherit;
+            animation: pulseRing 2s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulseRing {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+
+        .decorative-corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--rose-gold);
+        }
+
+        .corner-tl { top: -2px; left: -2px; border-right: none; border-bottom: none; border-top-left-radius: 25px; }
+        .corner-tr { top: -2px; right: -2px; border-left: none; border-bottom: none; border-top-right-radius: 25px; }
+        .corner-bl { bottom: -2px; left: -2px; border-right: none; border-top: none; border-bottom-left-radius: 25px; }
+        .corner-br { bottom: -2px; right: -2px; border-left: none; border-top: none; border-bottom-right-radius: 25px; }
     </style>
 </head>
 <body>
 
     <div class="color-bloom"></div>
-    <div id="timer-lock-overlay">Countdown finished. Interface unlocked.</div>
     <audio id="bg-music" loop><source src="AUD-20260626-WA0001.mp3" type="audio/mpeg"></audio>
+    <audio id="transition-sound"><source src="data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==" type="audio/wav"></audio>
 
     <section id="s1" class="screen active">
         <div class="glass-card">
@@ -780,13 +674,13 @@
                 <div class="t-box"><span id="mins">00</span><label>Mins</label></div>
                 <div class="t-box sec-active"><span id="secs">00</span><label>Secs</label></div>
             </div>
-            <button id="manual-enter-btn" class="btn-p" onclick="openModal()">Click for Surprise ✨</button>
+            <button class="btn-p" onclick="openModal()">Click for Surprise ✨</button>
         </div>
     </section>
 
     <section id="s2" class="screen">
         <div class="glass-card" id="m-ask">
-            <div class="intro-vid-container media-frame tall frame-style-4">
+            <div class="intro-vid-container media-frame tall">
                 <video id="intro-vid" muted loop playsinline style="width: 100%; display: block;">
                     <source src=" Record_2026-05-13-09-25-15_f9ee0578fe1cc94de7482bd41accb329~3.mp4 " type="video/mp4">
                 </video>
@@ -799,9 +693,9 @@
         </div>
 
         <div class="glass-card" id="m-deco" style="display:none;">
-            <p style="font-weight: 600; margin-bottom: 15px; color: var(--text-secondary); font-size: 0.9rem;">Light up your world! 💡</p>
-            <button class="btn-p" onclick="turnLights()">Turn On Lights</button>
-            <button class="btn-p" onclick="addBuntings()">Add Sparkles</button>
+            <p style="font-weight: 600; margin-bottom: 15px; color: var(--text-secondary); font-size: 0.9rem;"></p>
+            <button class="btn-p" onclick="turnLights()"> Light up your world! 💡 </button>
+            <button class="btn-p" onclick="addBuntings()"> Add Sparkles </button>
 
             <div id="envelope" style="display:none; margin-top:20px; cursor:pointer;" onclick="openGiftReveal()">
                 <div class="gift-wrapper">
@@ -818,7 +712,7 @@
         <div class="glass-card" style="background: rgba(20, 15, 38, 0.75); border-color: var(--rose-gold);">
             <h2 class="neon-text" style="font-size: 22px; margin-bottom: 15px;">Your Special Gift 🎁</h2>
             <div class="special-frame-container">
-                <div class="isolated-reveal-frame media-frame tall frame-style-2">
+                <div class="isolated-reveal-frame media-frame tall">
                     <video id="gift-reveal-vid" playsinline>
                         <source src="VID_20260513_151013.mp4" type="video/mp4">
                     </video>
@@ -831,15 +725,9 @@
 
     <section id="s-final">
         <h1 class="h-birthday">Happy Birthday Poojitha</h1>
-        <p style="color:var(--rose-gold); letter-spacing:4px; font-size: 0.75rem; font-weight:600; margin-top: 8px;">✨ JULY 3, 2026 ✨</p>
+        <p style="color:var(--rose-gold); letter-spacing:4px; font-size: 0.75rem; font-weight:600; margin-top: 10px;">✨ JULY 3, 2026 ✨</p>
 
-        <div class="pooji-main-frame media-frame frame-style-1" style="max-width: 400px; margin: 20px auto; border: 3px solid var(--rose-gold); border-radius: 20px; background: rgba(255, 255, 255, 0.05);">
-            <span class="frame-spark spark-tl"></span>
-            <span class="frame-spark spark-tr"></span>
-            <span class="frame-spark spark-bl"></span>
-            <span class="frame-spark spark-br"></span>
-            <div class="frame-line"></div>
-            <div class="frame-corners"></div>
+        <div class="pooji-main-frame media-frame" style="max-width: 400px; margin: 20px auto; border: 3px solid var(--rose-gold); border-radius: 20px; background: rgba(255, 255, 255, 0.05);">
             <img src="IMG-20260623-WA0027.jpg" alt="Poojitha" style="width: 100%; border-radius: 12px; display: block;">
             <p class="frame-caption" style="text-align: center; margin-top: 15px; font-size: 1.2rem; color: white; font-family: 'Segoe UI', sans-serif;">Our Brightest Star ✨</p>
         </div>
@@ -878,69 +766,85 @@
             <div class="album-section">
                 <div class="album-title">A sweet collection of beautiful moments</div>
                 <div class="album-grid cols-4">
-                    <div class="album-item media-frame frame-style-3"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260623-WA0026.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-2"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260623-WA0050.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-1"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0061.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0026.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0050.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0061.jpg" alt=""><div class="image-label"></div></div>
                 </div>
             </div>
 
             <div class="album-section">
                 <div class="album-title"> lovely moments captured together</div>
                 <div class="album-grid cols-3">
-                    <div class="album-item media-frame frame-style-1"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260623-WA0042.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-4"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0019.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-2"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG_20260624_163309.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0042.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0019.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG_20260624_163309.jpg" alt=""><div class="image-label"></div></div>
                 </div>
             </div>
 
             <div class="album-section">
                 <div class="album-title"> precious memories</div>
                 <div class="album-grid cols-1">
-                    <div class="album-item media-frame frame-style-3"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0015.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-1"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260623-WA0037.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0015.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0037.jpg" alt=""><div class="image-label"></div></div>
                 </div>
             </div>
 
             <div class="album-section">
                 <div class="album-title">A special memory</div>
                 <div class="album-grid cols-1">
-                    <div class="album-item media-frame frame-style-2"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0006~2.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0006~2.jpg" alt=""><div class="image-label"></div></div>
                 </div>
             </div>
 
             <div class="album-section">
                 <div class="album-title">Another cherished moment</div>
                 <div class="album-grid cols-1">
-                    <div class="album-item media-frame frame-style-4"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0009.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0009.jpg" alt=""><div class="image-label"></div></div>
                 </div>
             </div>
 
             <div class="album-section">
                 <div class="album-title">A bigger gallery of unforgettable memories</div>
                 <div class="album-grid cols-1">
-                    <div class="album-item media-frame frame-style-1"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260624-WA0015.jpg" alt=""><div class="image-label"></div></div> 
-                    <div class="album-item media-frame frame-style-2"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260624-WA0013.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-3"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260623-WA0068.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-4"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0067.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-1"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260623-WA0065.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-2"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0066.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-3"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260623-WA0059.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-4"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0060.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-1"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260623-WA0064.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-2"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0053.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-3"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260623-WA0052.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-4"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0057.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-1"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260623-WA0049.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-2"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0048.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-3"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260623-WA0043.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-4"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0039.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-1"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260623-WA0034.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-2"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0040.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-3"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG-20260623-WA0030.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-4"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="IMG-20260623-WA0020.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-1"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-tr"></span><span class="frame-line"></span><img src="IMG_20260625_172744.jpg" alt=""><div class="image-label"></div></div>
-                    <div class="album-item media-frame frame-style-2"><span class="frame-spark spark-tl"></span><span class="frame-spark spark-br"></span><span class="frame-line"></span><img src="Screenshot_2026-06-23-20-19-19-49_40deb401b9ffe8e1df2f1cc5ba480b12.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260624-WA0015.jpg" alt=""><div class="image-label"></div></div> 
+                    <div class="album-item media-frame"><img src="IMG-20260624-WA0013.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0068.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0067.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0065.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0066.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0059.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0060.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0064.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0053.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0052.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0057.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0049.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0048.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0043.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0039.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0034.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0040.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0030.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG-20260623-WA0020.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="IMG_20260625_172744.jpg" alt=""><div class="image-label"></div></div>
+                    <div class="album-item media-frame"><img src="Screenshot_2026-06-23-20-19-19-49_40deb401b9ffe8e1df2f1cc5ba480b12.jpg" alt=""><div class="image-label"></div></div>
                 </div>
+            </div>
+        </div>
+
+        <!-- New Animated Frame Section -->
+        <div class="animated-frame">
+            <div class="decorative-corner corner-tl"></div>
+            <div class="decorative-corner corner-tr"></div>
+            <div class="decorative-corner corner-bl"></div>
+            <div class="decorative-corner corner-br"></div>
+            <h3 class="glow-text">A Message Just For You</h3>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                On your special day, we want you to know how much your friendship means to us. Your smile lights up our world, 
+                and your kindness inspires us every day. May this year bring you endless joy, success, and all the happiness you deserve.
+            </p>
+            <div style="margin-top: 15px; font-style: italic; color: var(--rose-gold); font-family: 'Playfair Display', serif;">
+                "True friends are never apart, maybe in distance but never in heart."
             </div>
         </div>
 
@@ -957,14 +861,20 @@
     </section>
 
     <div class="flower-lights" id="f-lights"></div>
+    <div class="friendship-note" id="friendship-note"></div>
 
     <script>
         const flowersArr = ['🌸', '✨', '🌼', '💜', '🌹', '🌟'];
         const lightColors = ['#e5b887', '#ff7eb3', '#ffd700', '#ffffff', '#ff416c'];
         const fLightsContainer = document.getElementById('f-lights');
-        const targetDate = new Date("July 3, 2026 00:00:00").getTime();
-        const lockTime = targetDate;
-        let countdownDone = false;
+        const friendshipMessages = [
+            '💜 Friendship is forever!',
+            '✨ Together we shine brighter!',
+            '🌹 Best friends for life!',
+            '💖 Three hearts, one bond!',
+            '🎀 Made for each other!',
+            '🌟 Grateful for you!'
+        ];
 
         let lightsHTML = '';
         for(let i=0; i<12; i++) {
@@ -973,6 +883,16 @@
             lightsHTML += `<div class="flower-thread" style="animation-delay: ${Math.random() * 2}s"><div class="thread"></div><div class="flower" style="color: ${color}">${flower}</div></div>`;
         }
         fLightsContainer.innerHTML = lightsHTML;
+
+        function showFriendshipMessage() {
+            const note = document.getElementById('friendship-note');
+            const msg = friendshipMessages[Math.floor(Math.random() * friendshipMessages.length)];
+            note.textContent = msg;
+            note.style.display = 'block';
+            setTimeout(() => {
+                note.style.display = 'none';
+            }, 3000);
+        }
 
         function startHearts() {
             const hearts = ['💜', '✨', '💖', '🌟', '🌸', '🎁'];
@@ -1004,54 +924,60 @@
             }, 180);
         }
 
-        function applyCountdownLock() {
-            const distance = lockTime - new Date().getTime();
-            if (distance <= 0) {
-                if (!countdownDone) {
-                    countdownDone = true;
-                    document.body.classList.add('countdown-done');
-                    document.body.classList.add('locked-ui');
-                    document.getElementById('days').innerText = '00';
-                    document.getElementById('hours').innerText = '00';
-                    document.getElementById('mins').innerText = '00';
-                    document.getElementById('secs').innerText = '00';
-                }
-                return;
+        function createMagicStars() {
+            const emojis = ['✨', '🌟', '💫', '⭐', '🌠'];
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const star = document.createElement('div');
+                    star.className = 'magic-star';
+                    star.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                    star.style.left = Math.random() * 100 + 'vw';
+                    star.style.top = Math.random() * 100 + 'vh';
+                    document.body.appendChild(star);
+                    setTimeout(() => star.remove(), 1000);
+                }, i * 150);
             }
+        }
 
+        const targetDate = new Date("July 3, 2026 00:00:00").getTime();
+        setInterval(() => {
+            const distance = targetDate - new Date().getTime();
             document.getElementById('days').innerText = Math.max(0, Math.floor(distance / 86400000)).toString().padStart(2, '0');
             document.getElementById('hours').innerText = Math.max(0, Math.floor((distance % 86400000) / 3600000)).toString().padStart(2, '0');
             document.getElementById('mins').innerText = Math.max(0, Math.floor((distance % 3600000) / 60000)).toString().padStart(2, '0');
             document.getElementById('secs').innerText = Math.max(0, Math.floor((distance % 60000) / 1000)).toString().padStart(2, '0');
-        }
-
-        setInterval(applyCountdownLock, 1000);
-        applyCountdownLock();
+        }, 1000);
 
         function openModal() {
-            if (!countdownDone) return;
             document.getElementById('s1').classList.remove('active');
             document.getElementById('s2').classList.add('active');
             const introVid = document.getElementById('intro-vid');
             if(introVid) introVid.play().catch(() => {});
             document.getElementById('bg-music').play().catch(() => {});
             startSparkles();
+            showFriendshipMessage();
+            createMagicStars();
         }
 
         function confirmYes() {
             document.getElementById('m-ask').style.display = 'none';
             document.getElementById('m-deco').style.display = 'block';
-            confetti({ particleCount: 25, spread: 50, origin: { y: 0.6 } });
+            showFriendshipMessage();
+            createMagicStars();
         }
 
         function turnLights() {
             document.getElementById('f-lights').style.display = 'flex';
             confetti({ particleCount: 40, colors: ['#ff7eb3', '#ffd700'] });
+            showFriendshipMessage();
+            createMagicStars();
         }
 
         function addBuntings() {
             confetti({ particleCount: 100, spread: 60, origin: { y: 0.6 } });
             document.getElementById('envelope').style.display = 'block';
+            showFriendshipMessage();
+            createMagicStars();
         }
 
         function openGiftReveal() {
@@ -1059,7 +985,8 @@
             document.getElementById('s-special-reveal').classList.add('active');
             const vid = document.getElementById('gift-reveal-vid');
             if(vid) vid.play().catch(() => {});
-            confetti({ particleCount: 60, spread: 80, origin: { y: 0.4 } });
+            showFriendshipMessage();
+            createMagicStars();
         }
 
         function goToCelebration() {
@@ -1067,7 +994,8 @@
             document.getElementById('s-final').style.display = "block";
             confetti({ particleCount: 150, spread: 100, colors: ['#ff7eb3', '#ffd700', '#00e5ff', '#7cff6b'] });
             startHearts();
-            setInterval(() => confetti({ particleCount: 12, spread: 45, origin: { y: 0.95 } }), 2200);
+            showFriendshipMessage();
+            createMagicStars();
         }
 
         function cutRibbon() {
@@ -1075,6 +1003,8 @@
             document.getElementById('ribbon-msg').innerText = "Celebration Unlocked! 🎊";
             document.getElementById('cake-section').style.display = 'block';
             confetti({ particleCount: 100, colors: ['#ffd700', '#ff416c', '#FFFFFF', '#00e5ff'] });
+            showFriendshipMessage();
+            createMagicStars();
         }
 
         function cutCake() {
@@ -1084,7 +1014,9 @@
             document.getElementById('cake-msg').innerText = "Yum! Perfect slice for POOJI! 🍰";
             document.getElementById('video-section').style.display = 'block';
             confetti({ particleCount: 80, spread: 100, colors: ['#ff7eb3', '#ffd700', '#00e5ff', '#7cff6b'] });
+            showFriendshipMessage();
+            createMagicStars();
         }
     </script>
 </body>
-</html>
+                </html>
